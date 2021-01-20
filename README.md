@@ -1,2 +1,0 @@
-# stu-dy-
-obvious
