@@ -26,7 +26,7 @@ do
         fflush(stdout);
 
         printf("PLEASE! choose Array 'A' Rank (maximum 4x4)==>\n\n");
-        sleep(1);
+        sleep (1);
         printf(" \a 'A' rows=  ");
         chk_row =scanf("%d", &row_num);
 
