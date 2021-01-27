@@ -9,3 +9,4 @@
 'ctrl+shift+p' open  kebindings in Atom Editor
 'ctrl+,' open settings in Atom editor
 select same word  or edit same word only irepl it T_T
+ very usefull explanation for c functions at : https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_74/rtref/scanf.htm
