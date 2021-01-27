@@ -1,5 +1,4 @@
 
-
  /***********************************************************************************************
  *                       d(Programmer): omar rashad salem 'ALSAQF'                               *
  *                                Date:13/1/2021                                                *
@@ -7,7 +6,7 @@
  *          this is  this is my first project written in c language <3  i tried not           *
   *                  to make the easiest\efficient calculator code!!                         *
    *       but tried hard -(not too hard XD- to practice all what i learned together        *
-    *                          at once "until array chapter".                              *
+    *                          at once "pointers EXXLUDED!".                               *
      *                                                                                    *
       *                     All Rights Reserved 2020/2021 ©                              *
        *                                                                                *
@@ -16,6 +15,7 @@
           *                                                                          *
            *                                                                        *
             ************************************************************************/
+// there will be a whole seperate+differnet  project for sorting algorithims and pointers
 //code starts here ==>
 #include <stdio.h>
 #include <math.h>
