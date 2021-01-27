@@ -1,5 +1,6 @@
 
 //SPECIALLY FOR CODELITE EDITE+OR (IDE)
+'ctrl+up\down' to swap lines places
 'end' to go to the end of the line
 'home' to go to the begining of line
 'ctrl+tap' to switch between taps
