@@ -80,7 +80,7 @@ for(i=0;i<x;i++)
   printf("%-.2f\t",A[i][j] );
   printf("\n");
 }
-printf("\t\t------------------------------------------------------------------------------ \n");
+printf("------------------------------------------------------------------------------ \n");
 
 
 /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -150,12 +150,13 @@ for(i=0;i<x;i++)
 }
 
   if( A_row_num!= B_row_num || A_colm_num!=B_colm_num)
-  printf("\t\tOOPS !!!! ***** your Matrices 'A & B' does not have same coloumns & rows number \n"
-        "\t\t\t\t*****please RETRY!! **** \n ");
+        printf("\t\tOOPS !!!! ***** your Matrices 'A & B' does not have same coloumns & rows number \n\n"
+               "\t\t\t\t\t\t\t*****please RETRY!! **** \n\n ");
+        printf("------------------------------------------------------------------------------ \n");
 
 }while(A_row_num!=B_row_num || A_colm_num!=B_colm_num); //this do-while loop is to make sure that array 'A' and 'B' can be added\subtractdd.
 
-printf("\t\t------------------------------------------------------------------------------ \n");
+printf("------------------------------------------------------------------------------ \n");
 
 for(i=0;i<x;i++)
 {
@@ -171,9 +172,5 @@ for(i=0;i<x;i++)
   printf("%-.2f\t",C[i][j] );
   printf("\n");
 }
-
-
-
-// i stoped here !!
 
 return 0;}
