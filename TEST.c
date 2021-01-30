@@ -18,9 +18,12 @@
 int i,j;
 x=4,y=4;
 
-  int row_num,colm_num,chk_row,chk_colm;
+  int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
+  int B_row_num,B_colm_num,B_chk_row,B_chk_colm;
 
-//starting with array 'A' making sure it filled and correctly.
+do //this do is to make sure that array 'A' and 'B' can be added\subtractdd.
+{
+//starting with array 'A' SECTION:  making sure it filled and correctly.
 do
 {
         fflush(stdout);
@@ -28,13 +31,13 @@ do
         printf("PLEASE! choose Array 'A' Rank (maximum 4x4)==>\n\n");
 
         printf(" \a 'A' rows=  ");
-        chk_row =scanf("%d", &row_num);
+        A_chk_row =scanf("%d", &A_row_num);
 
 
        printf("  'A' columns=  ");
-       chk_colm =scanf("%d", &colm_num);
+       A_chk_colm =scanf("%d", &A_colm_num);
         //restrictions for user input in following line
-        if( chk_row!=1||chk_colm!=1||row_num>4 || row_num<0|| colm_num>4 || colm_num<0)
+        if( A_chk_row!=1||A_chk_colm!=1||A_row_num>4 || A_row_num<0|| A_colm_num>4 || A_colm_num<0)
 {
         printf("\n \a Failure!!---->  Your Array Rank is not accepted !!.");
 
@@ -43,12 +46,12 @@ do
 
         // we can add sleep() here ! if we want but \a is good!.
        //restrictions for user input in following line
-}while(  chk_row!=1||chk_colm!=1|| row_num>4 || row_num<0||  colm_num>4 || colm_num<0);
+}while(  A_chk_row!=1||A_chk_colm!=1|| A_row_num>4 || A_row_num<0||  A_colm_num>4 || A_colm_num<0);
 
-x= row_num, y= colm_num;
+x= A_row_num, y= A_colm_num;
 
 printf("\n\n\a\t\tSuccess!!---> Array 'A' set to rank = %ix%i ---> (A[%i][%i]). \n\n"
-      ,row_num,colm_num,row_num,colm_num);
+      ,A_row_num,A_colm_num,A_row_num,A_colm_num);
 
 sleep(0.5);
 printf("\t\tPLEASE! fill Array 'A' --(input  values \"row by row\")-- \n\n");
@@ -79,24 +82,25 @@ for(i=0;i<x;i++)
 }
 printf("\t\t------------------------------------------------------------------------------ \n");
 
-      // Array 'B' making sure it filled and correctly.
+      // Array 'B' SECTION: making sure it filled and correctly.
      // i stoped here !!
-printf("\t\t\a***** REMEMBER!! arrays  must be in same Rank (Rows*columns) to"
-       " do Add/subtract them*****\n\n ");
+printf("\t\t\a***** REMEMBER!! arrays  must have same Rows & columns to"
+       "  Add/subtract them *****\n\n ");
        sleep(1);
+do
 {
         fflush(stdout);
         sleep(1);
         printf("PLEASE! choose Array 'B' Rank (maximum 4x4)==>\n\n");
 
         printf(" \a 'B' rows=  ");
-        chk_row =scanf("%d", &row_num);
+        B_chk_row =scanf("%d", &B_row_num);
 
 
        printf("  'B' columns=  ");
-       chk_colm =scanf("%d", &colm_num);
+       A_chk_colm =scanf("%d", &B_colm_num);
         //restrictions for user input in following line
-        if( chk_row!=1||chk_colm!=1||row_num>4 || row_num<0|| colm_num>4 || colm_num<0)
+        if( B_chk_row!=1||B_chk_colm!=1||B_row_num>4 || B_row_num<0|| B_colm_num>4 || B_colm_num<0)
 {
         printf("\n \a Failure!!---->  Your Array Rank is not accepted !!.");
 
@@ -105,12 +109,12 @@ printf("\t\t\a***** REMEMBER!! arrays  must be in same Rank (Rows*columns) to"
 
         // we can add sleep() here ! if we want but \a is good!.
        //restrictions for user input in following line
-}while(  chk_row!=1||chk_colm!=1|| row_num>4 || row_num<0||  colm_num>4 || colm_num<0);
+}while(  B_chk_row!=1||B_chk_colm!=1|| B_row_num>4 || B_row_num<0||  B_colm_num>4 || B_colm_num<0);
 
-x= row_num, y= colm_num;
+x= B_row_num, y= B_colm_num;
 
 printf("\n\n\a\t\tSuccess!!---> Array 'B' set to rank = %ix%i ---> (B[%i][%i]). \n\n"
-,row_num,colm_num,row_num,colm_num);
+,B_row_num,B_colm_num,B_row_num,B_colm_num);
 
 sleep(0.5);
 printf("\t\tPLEASE! fill Array 'B' --(input  values \"row by row\")-- \n\n");
@@ -140,7 +144,24 @@ for(i=0;i<x;i++)
   printf("\n");
 }
 
- //next line will check if array 'A' and array 'B' are in same rank before addtion then we write addtion code
+  if( A_row_num!= B_row_num || A_colm_num!=B_colm_num)
+  printf("\t\tOOPS !!!! ***** your arrays 'A & B' does not have same coloumns & rows number \n"
+        "\t\t\t\t*****please RETRY!! **** \n ");
+
+}while(A_row_num!=B_row_num || A_colm_num!=B_colm_num); //this do-while loop is to make sure that array 'A' and 'B' can be added\subtractdd.
+
+printf("\t\t------------------------------------------------------------------------------ \n");
+printf("\n\n\a\t\tSuccess!!---> A+B=C\n\n (Array 'C')=\n";
+
+C=A+B;
+for(i=0;i<x;i++)
+{
+  for(j=0;j<y;j++)
+  printf("%-.2f\t",C[i][j] );
+  printf("\n");
+}
+
+
 
 // i stoped here !!
 
