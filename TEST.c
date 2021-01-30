@@ -82,8 +82,13 @@ for(i=0;i<x;i++)
 }
 printf("\t\t------------------------------------------------------------------------------ \n");
 
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
       // Array 'B' SECTION: making sure it filled and correctly.
-     // i stoped here !!
+
+
 printf("\t\t\a***** REMEMBER!! arrays  must have same Rows & columns to"
        "  Add/subtract them *****\n\n ");
        sleep(1);
@@ -98,7 +103,7 @@ do
 
 
        printf("  'B' columns=  ");
-       A_chk_colm =scanf("%d", &B_colm_num);
+       B_chk_colm =scanf("%d", &B_colm_num);
         //restrictions for user input in following line
         if( B_chk_row!=1||B_chk_colm!=1||B_row_num>4 || B_row_num<0|| B_colm_num>4 || B_colm_num<0)
 {
@@ -151,9 +156,15 @@ for(i=0;i<x;i++)
 }while(A_row_num!=B_row_num || A_colm_num!=B_colm_num); //this do-while loop is to make sure that array 'A' and 'B' can be added\subtractdd.
 
 printf("\t\t------------------------------------------------------------------------------ \n");
-printf("\n\n\a\t\tSuccess!!---> A+B=C\n\n (Array 'C')=\n";
 
-C=A+B;
+for(i=0;i<x;i++)
+{
+  for(j=0;j<y;j++)
+  C[i][j]=A[i][j]+B[i][j];
+}
+
+printf("\n\n\a\t\tSuccess!!---> A+B=C\n\n (Array 'C')=\n");
+
 for(i=0;i<x;i++)
 {
   for(j=0;j<y;j++)
