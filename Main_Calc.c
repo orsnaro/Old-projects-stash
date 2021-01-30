@@ -170,7 +170,7 @@ operation_type='p';
  printf("//press any key to exit");
 getch(); //to stop the calclator from exiting suddenly
 
-return0;
+return 0;
 
 }
 
