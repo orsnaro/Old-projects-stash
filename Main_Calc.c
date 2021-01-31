@@ -36,14 +36,14 @@ float division(float x ,float y);
 int main()
 {
 char operation_type;
-char y_nans,chrc;
-float x,y,z,a,b,c,;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' i for matc if we needed */
+char y_nans,ch;
+float x,y,z,a,b,c;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' i for matc if we needed */
 
 static float Z[4][4],W[4][4],K[4][4];
 float  RES=0 ;
 printf("\n // HI! this program  is a simple calculator ^_^. \n");
-printf( " \t-----------------------------------------------\n "
- );
+printf( " \t-----------------------------------------------\n ");
+
 
 
 Selection1 :
@@ -51,7 +51,8 @@ operation_type=0;
 y_nans=0;
 
 printf("\n FIRST THING IS FIRST!  assign your  operands 'x' 'y' VALUES : \n\n");
-printf("\n ================> (NOTE): set 'x,y' any values if you want matrix operations or quadratic eqn <==================\n\n");
+Sleep(1000);
+printf("\n \a ================> (NOTE): set 'x,y' any values if you want matrix operations or quadratic eqn <==================\n\n");
 
 printf("\n PLEASE! choose the first number ^_^ ==> ");
 fflush(stdout);
@@ -76,8 +77,8 @@ printf("press \"q\" if you want to solve quadratic equations . \n");
 printf("press \"e\" for Matrix Operations. \n");
 printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
-chrc = getchar();
-operation_type = chrc;
+ch = getche();
+operation_type = ch;
 
 
 
@@ -129,7 +130,7 @@ printf( " \t-----------------------------------------------\n ");
 
   case 'e':
   {
-matrix_operations(Z,W,K);
+matrix_operations( Z , W ,K);
 printf( " \t-----------------------------------------------\n ");
 
   }
@@ -174,11 +175,10 @@ operation_type='p';
  }
 
  printf("//press any key to exit");
-getch(); //to stop the calclator from exiting suddenly
+ getch(); //to stop the calclator from exiting suddenly
 
-return 0;
 
-}
+return 0;}
 
 
 // --------------------functions body--------------------
