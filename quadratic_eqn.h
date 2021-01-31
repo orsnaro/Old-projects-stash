@@ -1,12 +1,12 @@
 /* THIS is DONE by: عمر رشاد محمود سالم sec5 /no.138
  , under prof.tamer medhat supervision <3 ^_^ */
-
+ #include "includes.h"
 
 float qudratic_eqn (float a , float b , float c)
 {
-char i; 
+char i;
 float  m, k , x_1,x_2,x_3,x_4 ;
-int  delta ; /* delta is the  discremenant. It tells us whether roots are: real,real repeated or complex */ 
+int  delta ; /* delta is the  discremenant. It tells us whether roots are: real,real repeated or complex */
 
 
 printf("lets try our beta.vr quadratic equation solver app ^_^\n\n" "please choose  coefficients    values \n ");
@@ -25,7 +25,7 @@ delta = pow(b,2) - 4*a*c ;
 x_1= (-b + sqrt(delta))/ (2*a);
 x_2= (-b - sqrt(delta))/ (2*a);
 /* we will tweak the formula a little bit so we can print complex soltuions ==> (k+mi)*/
- 
+
 k= -b/(2*a);
 m= (sqrt(-delta)) / (2*a);
  /* note: for complex:

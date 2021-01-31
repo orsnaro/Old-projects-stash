@@ -1,18 +1,19 @@
 //this header belongs to ors simple calc :)
-
+#include "includes.h"
+int x,y;
 float mat_add( float A[x][y], float B[x][y],float C[x][y]);
-float mat_sub();
-float mat_sort();
-float mat_sort();
+
+
+
 
 float matrix_operations(float A[],float B[],float C[])
 {
-    char  main_mnu_slct;
-    float average _value;
+    char  main_mnu_slct ;
+    float average_value ;
     static float Z[4][4],W[4][4],K[4][4];
 
     //MAIN menu
-        printf("\n \n ---------------------------------------------------------------------- . \n");
+        printf("\n \n ---------------------------------------------------------------------\n");
         printf("\n \n //\n ---------------->\t WELCOME! THIS is MATRIX SECTION \t<--------------. \n \t\t //Please Select your option: \v\v \n");
         printf("\n \n //\n press \"a\" if you want to Add . \n");
         printf("press \"b\" if you want to Subtract . \n");
@@ -21,7 +22,7 @@ float matrix_operations(float A[],float B[],float C[])
         printf("press \"e\" if you want to sort your Matrix\n\n");
         printf("press \"f\" to INCLUDE last result in a new operation\n\n");
         printf("PLEASE! choose  ==> ");
-        scanf(\n%c,&main_mnu_slct);
+        scanf("%c",&main_mnu_slct);
 
 
 
@@ -30,39 +31,45 @@ switch(main_mnu_slct)
         case'a':
 {
   static float Z[4][4],W[4][4],K[4][4];
-       mat_add( Z , W, K) ;
+  mat_add( Z , W, K) ;
 }
 break;
+
         case'b':
 {
 
 }
 break;
-        case'c':
+
+       case'c':
 {
 
 }
 break;
+
         case'd':
 {
 
 }
 break;
+
         case'e':
 {
 
 }
 break;
+
         case'f':
 {
 
 }
 break;
+
         default: ;
 {
 
 }
-return();}
+return(0);}
 
 }
 
@@ -89,7 +96,7 @@ do //this do is to make sure that Matrix 'A' and 'B' can be added\subtractdd.
 do
 {
       fflush(stdout);
-      sleep(1);
+
       printf("PLEASE! choose Matrix 'A' Rank (maximum 4x4)==>\n\n");
 
       printf(" \a 'A' rows=  ");
@@ -235,9 +242,4 @@ printf("%-.2f\t",C[i][j] );
 printf("\n");
 }
 
-return C;}
-
-
-
-
-              
+return 0;}
