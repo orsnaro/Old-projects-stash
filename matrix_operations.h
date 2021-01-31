@@ -19,7 +19,7 @@ float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
         printf("\n \n //\n ---------------->\t WELCOME! THIS is MATRIX SECTION \t<--------------. \n \t\t //Please Select your option: \v\v \n");
         printf("\n \n //\n press \"a\" if you want to Add Matrices . \n");
         printf("press \"b\" if you want to Subtract Matrices . \n");
-        printf("press \"c\" if you want to Multiply . \n");
+        printf("press \"c\" if you want to Multiply Matrices . \n");
         printf("press \"d\" if you want to find the average value of an Array  . \n");
         printf("press \"e\" if you want to sort your Matrix\n\n");
         printf("press \"f\" to INCLUDE last result in a new operation\n\n");

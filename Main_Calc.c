@@ -174,7 +174,7 @@ operation_type='p';
      default: ;
  }
 
- printf("//press any key to exit");
+ printf("//press any key to exit \n");
  getch(); //to stop the calclator from exiting suddenly
 
 
