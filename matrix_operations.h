@@ -9,25 +9,26 @@ float mat_sub( float A[x][y], float B[x][y],float C[x][y]);
 
 float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
 {
-    char  main_mnu_slct ;
+    char  mat_mnu_slct ;
     float average_value ;
     static float Z[4][4],W[4][4],K[4][4];
 
     //MAIN menu
+    fflush(stdout);
         printf("\n \n ---------------------------------------------------------------------\n");
         printf("\n \n //\n ---------------->\t WELCOME! THIS is MATRIX SECTION \t<--------------. \n \t\t //Please Select your option: \v\v \n");
-        printf("\n \n //\n press \"a\" if you want to Add . \n");
-        printf("press \"b\" if you want to Subtract . \n");
+        printf("\n \n //\n press \"a\" if you want to Add Matrices . \n");
+        printf("press \"b\" if you want to Subtract Matrices . \n");
         printf("press \"c\" if you want to Multiply . \n");
         printf("press \"d\" if you want to find the average value of an Array  . \n");
         printf("press \"e\" if you want to sort your Matrix\n\n");
         printf("press \"f\" to INCLUDE last result in a new operation\n\n");
         printf("PLEASE! choose  ==> ");
-        scanf("%c",&main_mnu_slct);
+        scanf("%c",&mat_mnu_slct);
 
 
 
-switch(main_mnu_slct)
+switch(mat_mnu_slct)
 {
         case'a':
 {
@@ -420,3 +421,7 @@ printf("\n");
 }
 
 return 0;}
+
+// 3) MATRICES Multiplication**************************************************************
+
+//stoped here ! 31-1-2021
