@@ -23,7 +23,7 @@
 option*/
 /* will try different  types of declaring funcitons */
 
-#include "subtraction_header.h" //i know am just missing man XD.  save ure bad words plz T_T
+#include "subtraction_header.h" //i know i know am just missing  XD.  save ure bad words plz T_T
 #include "quadratic_eqn.h"
 #include "matrix_operations.h"
 
@@ -37,11 +37,11 @@ int main()
 {
 static char operation_type;
 static char y_nans,ch;
-static float x,y,z,a,b,c;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' i for matc if we needed */
+static float x,y,z,a,b,c;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' is for mat c if we needed */
 int xa,ya;
- float Z[xa=4][ya=4],W[xa=4][ya=4],K[xa=4][ya=4];
-
+float Z[xa=4][ya=4],W[xa=4][ya=4],K[xa=4][ya=4];
 float  RES=0 ;
+
 printf("\n // HI! this program  is a simple calculator ^_^. \n");
 printf( " \t-----------------------------------------------\n ");
 
@@ -52,7 +52,7 @@ operation_type=0;
 y_nans=0;
 
 printf("\n FIRST THING IS FIRST!  assign your  operands 'x' 'y' VALUES : \n\n");
-Sleep(1000);
+Sleep(500);
 printf("\n \a ================> (NOTE): set 'x,y' any values if you want matrix operations or quadratic eqn <==================\n\n");
 
 printf("\n PLEASE! choose the first number ^_^ ==> ");
@@ -66,7 +66,8 @@ scanf("%f",&y) ;
 fflush(stdout);
 fflush(stdin);
 
-//condition to remain x an y as numbers other wise it confuses the code and mixes every thing up XD
+
+//condition to remain x an y as numbers otherwise it confuses the code and mixes every thing up XD
 
 
 Selection2 :
@@ -80,7 +81,7 @@ printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
 ch= getchar();
 operation_type=ch;
-
+fflush(stdin);
 
 
 Selection3 :
@@ -122,19 +123,19 @@ printf( " \t-----------------------------------------------\n ");
   break;
 
   case 'q':
-  {
+    {
 qudratic_eqn ( a ,  b ,  c);
 printf( " \t-----------------------------------------------\n ");
 
-  }
+    }
 	break;
 
   case 'e':
-  {
+    {
 matrix_operations( Z , W ,K);
 printf( " \t-----------------------------------------------\n ");
 
-  }
+    }
 	break;
 
    case 'p':
@@ -149,12 +150,11 @@ goto Selection2 ;
 	break;
 
 default :
-{
-   puts("\a #WOW---------------------> YOU didn't select mode/operation type !! \
-   please re-select! <------------------------------");
-
-goto Selection1 ;
-}
+  {
+   puts("\a #WOW---------------------> YOU didn't select mode/operation type !!"
+      "please re-select! <------------------------------");
+   goto Selection1 ;
+  }
 }
 
 puts("  //\n continue calculations? \n press 'n' for new operation \n press 'u'\
