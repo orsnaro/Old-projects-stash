@@ -37,22 +37,23 @@ switch(mat_mnu_slct)
 {
         case'a':
 {
-  float Z[x][y],W[x][y],K[x][y];
+
   mat_add( Z , W, K) ;
 }
 break;
 
         case'b':
 {
-  float Z[x][y],W[x][y],K[x][y];
+
   mat_sub( Z , W, K) ;
 }
 break;
 
        case'c':
 {
-  float Z[x][y],W[x][y],K[x][y];
+
   mat_multiply( Z , W, K) ;
+
 }
 break;
 
@@ -275,7 +276,7 @@ printf("%-.2f\t",C[i][j] );
 printf("\n");
 }
 
-return 0;}
+}
 
 
 
@@ -467,7 +468,7 @@ printf("%-.2f\t",C[i][j] );
 printf("\n");
 }
 
-return 0;}
+}
 
 
 
@@ -679,6 +680,6 @@ for(j=0;j<B_colm_num;j++)
 }
 
 printf("\n");
-return 0;}
+}
 
 //stoped here ! 31-1-2021
