@@ -3,19 +3,22 @@
 
 int x=4;
 int y=4;
-void mat_avg( float A[x][y], float B[x][y], float C[x][y]);
+void mat_sort( float A[x][y], float B[x][y], float C[x][y]);
 
 int main()
 {
 float Z [x][y], W[x][y], K[x][y];
- mat_avg(Z, W, K);
+ mat_sort(Z, W, K);
 
 
 return 0;
 }
 
 
+void mat_sort( float A[x][y], float B[x][y], float C[x][y])
+{
 
+}
 
 
 
@@ -108,13 +111,7 @@ for(j=0;j<y;j++)
 mat_avg_value += A[i][j];
 }
 mat_avg_value/= x*y;
-printf("\n\n\a\t\t SUCCESS!!---> (Matrix 'A') average value = %.2f\n",mat_avg_value);
-
-
-
-
-
-
+printf("\n\n\a\t\t SUCCESS!!---> (Matrix 'A') average value = %.2f\n\n\n",mat_avg_value);
 
 /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 }
@@ -122,4 +119,4 @@ printf("\n\n\a\t\t SUCCESS!!---> (Matrix 'A') average value = %.2f\n",mat_avg_va
 
 
 
-//stoped here ! 6-2-2021
+//stoped here ! 7-2-2021

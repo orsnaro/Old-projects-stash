@@ -83,7 +83,6 @@ ch= getchar();
 operation_type=ch;
 fflush(stdin);
 
-
 Selection3 :
  switch(operation_type)
 {
