@@ -2,19 +2,35 @@
 #include "includes.h"
 
 static int A_row_num,A_colm_num,B_row_num,B_colm_num;
- int x,y;
+int x=4;
+int y=4;
+float Z[4][4],W[4][4],K[4][4];
 
 void mat_add( float A[x][y], float B[x][y],float C[x][y]);
 void mat_sub( float A[x][y], float B[x][y],float C[x][y]);
 void mat_multiply( float A[x][y], float B[x][y],float C[x][y]);
+float matrix_operations(float A[x][y], float B[x][y],float C[x][y]);
 
-x=4;
-y=4;
+
+int main()
+{
+
+ matrix_operations(Z, W, K);
+
+return 0;}
+
+
+
+
+
+
+
+
 float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
 {
     static char  mat_mnu_slct ;
     static float average_value ;
-    float Z[x][y],W[x][y],K[x][y];
+
     static char func_return,ch;
     //MAIN menu
     fflush(stdout);
