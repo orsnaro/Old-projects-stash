@@ -682,4 +682,5 @@ for(j=0;j<B_colm_num;j++)
 printf("\n");
 }
 
-//stoped here ! 31-1-2021
+//stoped here ! 6-2-2021
+//try to fix the return or pass arrays to main function + try whole matrix operations in test.c
