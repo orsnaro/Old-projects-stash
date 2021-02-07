@@ -35,11 +35,12 @@ float division(float x ,float y);
 
 int main()
 {
-char operation_type;
-char y_nans,ch;
-float x,y,z,a,b,c;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' i for matc if we needed */
+static char operation_type;
+static char y_nans,ch;
+static float x,y,z,a,b,c;  /* u can choose diffrent variables than the ones assosiated with funcs btw 'z' i for matc if we needed */
+int xa,ya;
+ float Z[xa=4][ya=4],W[xa=4][ya=4],K[xa=4][ya=4];
 
-static float Z[4][4],W[4][4],K[4][4];
 float  RES=0 ;
 printf("\n // HI! this program  is a simple calculator ^_^. \n");
 printf( " \t-----------------------------------------------\n ");
@@ -77,8 +78,8 @@ printf("press \"q\" if you want to solve quadratic equations . \n");
 printf("press \"e\" for Matrix Operations. \n");
 printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
-ch = getche();
-operation_type = ch;
+ch= getchar();
+operation_type=ch;
 
 
 
@@ -147,7 +148,8 @@ goto Selection2 ;
    }
 	break;
 
-default : {
+default :
+{
    puts("\a #WOW---------------------> YOU didn't select mode/operation type !! \
    please re-select! <------------------------------");
 
@@ -156,12 +158,15 @@ goto Selection1 ;
 }
 
 puts("  //\n continue calculations? \n press 'n' for new operation \n press 'u'\
- to use old result \n press 'f' to stop \n\n \t ----Your choice ==>");
+ to use old result \n press 'f' to stop \n\n \t ----Your choice ==>\n");
 fflush(stdout);
-scanf(" %c",&y_nans);
+ch= getchar();
+y_nans= ch;
+
  switch(y_nans)
  {
-     case 'n': goto Selection1  ;
+     case 'n':
+     goto Selection1  ;
      break;
 
      case 'u':
@@ -171,11 +176,9 @@ operation_type='p';
  break;
      }
 
-     default: ;
+
  }
 
- printf("//press any key to exit \n");
- getch(); //to stop the calclator from exiting suddenly
 
 
 return 0;}
@@ -199,9 +202,7 @@ float division(float x,float y)
    printf("\t\t\t Division answer=%.2f",dres);
 }
 
-
-
-
- // yaaaay many lines (yes sure i used them all :@) see ya <3.
- //والله الموفق لما فيه خير لنا >
 return(dres);}
+
+// yaaaay many lines (yes sure i used them all :@) see ya <3.
+//والله الموفق لما فيه خير لنا >

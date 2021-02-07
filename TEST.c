@@ -7,7 +7,7 @@ float mat_multiply( float A[x][y], float B[x][y],float C[x][y]);
 
  int main()
  {
-   static float Z[4][4],W[4][4],K[4][4];
+   float Z[x][y],W[x][y],K[x][y];
 
    mat_multiply( Z, W, K);
 
@@ -27,7 +27,9 @@ float mat_multiply( float A[x][y], float B[x][y],float C[x][y]);
 //function body******************************************************************************
 
  int A_row_num,A_colm_num,B_row_num,B_colm_num;
-float mat_multiply( float A[4][4], float B[4][4], float C[A_row_num][B_colm_num])
+ A_row_num=4;
+ B_colm_num=4;
+float mat_multiply( float A[x][y], float B[x][y], float C[A_row_num][B_colm_num])
 {
 
   static int A_chk_row,A_chk_colm,B_chk_row,B_chk_colm;
@@ -219,10 +221,5 @@ printf("\n");
 return 0;}
 
 
-//stoped at line 182 .  this for() loop finishes and the multiply function will be ready
-
-
-
-
-
-  //stoped here ! 31-1-2021
+//finished multiplication of matrices
+  //stoped here ! 6-2-2021
