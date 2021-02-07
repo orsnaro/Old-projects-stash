@@ -143,7 +143,6 @@ scanf("%f", &A[i][j]);
 /*we  can add restriction input line here then if not true goto() previous step
 (not really needed) */
 }
-
 }
 
       //show user's Matrix 'A' final value.
@@ -214,7 +213,7 @@ scanf("%f", &B[i][j]);
 
 }
 
-//show user's Matrix 'A' final value.
+//show user's Matrix 'B' final value.
 printf("\t\t------------------------------------OUTPUT------------------------------------ \n");
 printf("\n (Arrray 'B')=\n" );
 for(i=0;i<x;i++)
@@ -230,6 +229,18 @@ if( A_row_num!= B_row_num || A_colm_num!=B_colm_num)
       printf("------------------------------------------------------------------------------ \n");
 
 }while(A_row_num!=B_row_num || A_colm_num!=B_colm_num); //this do-while loop is to make sure that array 'A' and 'B' can be added\subtractdd.
+
+
+
+
+
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    // Matrix 'C' (result) SECTION:
+
+
 
 printf("------------------------------------------------------------------------------ \n");
 
@@ -386,7 +397,7 @@ scanf("%f", &B[i][j]);
 
 }
 
-//show user's Matrix 'A' final value.
+//show user's Matrix 'B' final value.
 printf("\t\t------------------------------------OUTPUT------------------------------------ \n");
 printf("\n (Arrray 'B')=\n" );
 for(i=0;i<x;i++)
@@ -402,6 +413,14 @@ if( A_row_num!= B_row_num || A_colm_num!=B_colm_num)
       printf("------------------------------------------------------------------------------ \n");
 
 }while(A_row_num!=B_row_num || A_colm_num!=B_colm_num); //this do-while loop is to make sure that array 'A' and 'B' can be added\subtractdd.
+
+
+
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+    // Matrix 'C' (result) SECTION:.
 
 printf("------------------------------------------------------------------------------ \n");
 
