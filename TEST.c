@@ -110,27 +110,7 @@ void mat_sort( float A[x][y])
 
           case'd':
   {
-            for(i=0;i<x;i++)
-            {
-              for(j=0;j<y;j++)
-             {
-                 for(k=i;k<x;k++)
-              {
-                     for(l=j;l<y;l++) // I don't "yet" know how not to compare the element with it self in 2D+ arrays (btw not a big deal keep it simple omar).
-               {
-                    printf("%d",k);
-                    if(A[k][l]<A[i][j])
-                {
-                    temp=A[i][j];
-                    A[i][j]=A[k][l];
-                    A[k][l]=temp;
-                    k=i;
-                    l=j+1;
-                }
-               }
-              }
-             }
-            }
+
   }
           break;
 
@@ -159,3 +139,4 @@ void mat_sort( float A[x][y])
 }
 
 //stoped here ! 9-2-2021
+// need to fix sorting equal elements + descinding sorting + sort menu bug.
