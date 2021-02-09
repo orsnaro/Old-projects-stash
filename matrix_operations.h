@@ -812,7 +812,7 @@ void mat_sort( float A[x][y])
   x=4,y=4;
   int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
   int k,l;
-  char sort_meth,chs;
+ static char sort_meth,chs;
  static float temp,smallv,bigv;  // temp is the "tool" to switch array elements places.
 
   //starting with array 'A' SECTION:  making sure it filled and correctly.
@@ -866,10 +866,11 @@ void mat_sort( float A[x][y])
         printf("\t\t =====================> Choose Sort method (*character!!*) <=====================:\n");// using   sorting algoritihm
         printf("\t\t 'a' Ascending order?\n");
         printf("\t\t 'd' Descending order?\n");
-        printf("PLEASE! choose  ==> ");
+        printf("PLEASE! choose  ==>\n ");
         chs=getchar();
         sort_meth=chs;
-fflush(stdin);
+
+
         switch(sort_meth)
 {
           case'a':
