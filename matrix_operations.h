@@ -812,8 +812,9 @@ void mat_sort( float A[x][y], float B[x][y], float C[x][y])
   x=4,y=4;
   int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
   int B_row_num,B_colm_num,B_chk_row,B_chk_colm;
-  int sort_meth;
-  float temp;
+  int k,l;
+  char sort_meth,ch;
+ static float temp,smallv,bigv;  // temp is the "tool" to switch array elements places.
 
   //starting with array 'A' SECTION:  making sure it filled and correctly.
   do
@@ -863,21 +864,47 @@ void mat_sort( float A[x][y], float B[x][y], float C[x][y])
         }
 
   sort_method:
-        printf("\t\t =====================> Choose Sort method (*by nember!!*) <=====================:\n");// using   sorting algoritihm
-        printf("\t\t (1) Ascending order?\n");
-        printf("\t\t (2) Descending order?\n");
+        printf("\t\t =====================> Choose Sort method (*character!!*) <=====================:\n");// using   sorting algoritihm
+        printf("\t\t (a) Ascending order?\n");
+        printf("\t\t (d) Descending order?\n");
         printf("PLEASE! choose  ==> ");
-        scanf("%d",&sort_meth);
+        ch=getchar();
+        sort_meth=ch;
 
         switch(sort_meth)
-        {
-          case'1':
-          {
+{
+          case'a':
+  {
+            for(i=0;i<x;i++)
+            {
+              for(j=0;j<y;j++)
+             {
+              smallv = A[i][j];
 
-          }
+                 for(k=i;k<x;i++)
+              {
+                     for(l=j+1;l<y;j++)
+               {
+                    bigv=A[k][l];
+                    if(bigv<=smallv)
+                {
+                    temp=smallv;
+                    smallv=bigv;
+                    bigv=temp;
+                    k=i,l=j+1;
+                }
+                    else
+                    continue;
+
+               }
+              }
+             }
+            }
+  }
+            /*check if two elements are equal does it work?*/
           break;
 
-          case'2':
+          case'd':
           {
 
           }
@@ -888,7 +915,7 @@ void mat_sort( float A[x][y], float B[x][y], float C[x][y])
             printf("\a -----------------OPS!! something went wrong. PLEASE! reselect sort method------------------");
             goto sort_method;
           }
-        }
+}
 
 
 
@@ -904,9 +931,9 @@ void mat_sort( float A[x][y], float B[x][y], float C[x][y])
   }
 
 
-  /* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* ---------------------------------------------------------------------------------EOF-----------------------------------------------------------------------------------------------*/
 }
 
 
 //stoped here ! 7-2-2021
-//just need to make the to sort algorithims by my self tommorow.
+//to do: make the to sort algorithims needed by my self tommorow.

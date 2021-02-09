@@ -4,11 +4,14 @@
 int x=4;
 int y=4;
 void mat_sort( float A[x][y], float B[x][y], float C[x][y]);
-
+int i,j;
 int main()
 {
-float Z [x][y], W[x][y], K[x][y];
- mat_sort(Z, W, K);
+for(i=0,j=0;i>4 || j<10; i++,j++)
+{
+printf("%i%i\n",i,j );
+}
+
 
 
 return 0;
