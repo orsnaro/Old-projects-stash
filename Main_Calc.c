@@ -79,7 +79,7 @@ printf("press \"q\" if you want to solve quadratic equations . \n");
 printf("press \"e\" for Matrix Operations. \n");
 printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
-ch= getchar();
+ch = getchar();
 operation_type=ch;
 fflush(stdin);
 
@@ -131,7 +131,7 @@ printf( " \t-----------------------------------------------\n ");
 
   case 'e':
     {
-matrix_operations( Z , W ,K);
+matrix_operations(Z,W,K);
 printf( " \t-----------------------------------------------\n ");
 
     }

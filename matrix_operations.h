@@ -9,7 +9,7 @@ void mat_add( float A[x][y], float B[x][y],float C[x][y]);
 void mat_sub( float A[x][y], float B[x][y],float C[x][y]);
 void mat_multiply( float A[x][y], float B[x][y],float C[x][y]);
 void mat_avg( float A[x][y], float B[x][y], float C[x][y]);
-void mat_sort( float A[x][y], float B[x][y], float C[x][y]);
+void mat_sort( float A[x][y] );
 
 float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
 {
@@ -22,7 +22,7 @@ float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
     //MAIN menu
     fflush(stdout);
         printf("\n \n ---------------------------------------------------------------------\n");
-        printf("\n \n //\n ---------------->\t WELCOME! THIS is MATRIX SECTION \t<--------------. \n \t\t //Please Select your option: \v\v \n");
+        printf("\n \n //\n ---------------->\t WELCOME! THIS is MATRIX SECTION \t<--------------. \n \t\t //Please Select your option:  \n");
         printf("\n \n //\n press \"a\" if you want to Add Matrices . \n");
         printf("press \"b\" if you want to Subtract Matrices . \n");
         printf("press \"c\" if you want to Multiply Matrices . \n");
@@ -812,7 +812,7 @@ void mat_sort( float A[x][y])
   x=4,y=4;
   int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
   int k,l;
-  char sort_meth,ch;
+  char sort_meth,chs;
  static float temp,smallv,bigv;  // temp is the "tool" to switch array elements places.
 
   //starting with array 'A' SECTION:  making sure it filled and correctly.
@@ -867,9 +867,9 @@ void mat_sort( float A[x][y])
         printf("\t\t 'a' Ascending order?\n");
         printf("\t\t 'd' Descending order?\n");
         printf("PLEASE! choose  ==> ");
-        ch=getchar();
-        sort_meth=ch;
-
+        chs=getchar();
+        sort_meth=chs;
+fflush(stdin);
         switch(sort_meth)
 {
           case'a':
@@ -892,13 +892,11 @@ void mat_sort( float A[x][y])
                     bigv=temp;
                     k=i,l=j+1;
                 }
-                    else
-                    continue;
-
                }
               }
              }
             }
+
   }
             /*check if two elements are equal does it work?*/
           break;
@@ -921,7 +919,7 @@ void mat_sort( float A[x][y])
 
         //show user's Matrix 'A' final sorted value.
   printf("\t\t------------------------------------OUTPUT------------------------------------ \n");
-  printf("\n (Arrray 'A')=\n" );
+  printf("\n (SORTED Arrray 'A')=\n" );
   for(i=0;i<x;i++)
   {
   for(j=0;j<y;j++)
