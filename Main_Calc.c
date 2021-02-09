@@ -79,7 +79,7 @@ printf("press \"q\" if you want to solve quadratic equations . \n");
 printf("press \"e\" for Matrix Operations. \n");
 printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
-ch = getchar();
+ch = getche();
 operation_type=ch;
 fflush(stdin);
 
@@ -150,7 +150,7 @@ goto Selection2 ;
 
 default :
   {
-   puts("\a #WOW---------------------> YOU didn't select mode/operation type !!"
+   puts("\n\a #WOW---------------------> YOU didn't select mode/operation type !!"
       "please re-select! <------------------------------");
    goto Selection1 ;
   }

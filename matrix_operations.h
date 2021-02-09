@@ -29,7 +29,7 @@ float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
         printf("press \"d\" if you want to find the average value of an Array  . \n");
         printf("press \"e\" if you want to sort your Matrix\n\n");
         printf("PLEASE! choose  ==> \n ");
-        ch= getchar();
+        ch= ();
         mat_mnu_slct=ch;
 
 
@@ -73,7 +73,7 @@ break;
 
 
 
-        default: ;
+        default:
 {
   puts("\a #OPS!---------------------> something went wrong  !!"
         "please re-select! <------------------------------");
@@ -812,7 +812,7 @@ void mat_sort( float A[x][y])
   x=4,y=4;
   int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
   int k,l;
- static char sort_meth,chs;
+ char sort_meth,c;
  static float temp,smallv,bigv;  // temp is the "tool" to switch array elements places.
 
   //starting with array 'A' SECTION:  making sure it filled and correctly.
@@ -863,13 +863,13 @@ void mat_sort( float A[x][y])
         }
 
   sort_method:
+
         printf("\t\t =====================> Choose Sort method (*character!!*) <=====================:\n");// using   sorting algoritihm
         printf("\t\t 'a' Ascending order?\n");
         printf("\t\t 'd' Descending order?\n");
-        printf("PLEASE! choose  ==>\n ");
-        chs=getchar();
-        sort_meth=chs;
-
+        printf("PLEASE! choose  ==> ");
+        c=getchar();
+        sort_meth= c;
 
         switch(sort_meth)
 {
@@ -881,11 +881,12 @@ void mat_sort( float A[x][y])
              {
               smallv = A[i][j];
 
-                 for(k=i;k<x;i++)
+                 for(k=i;k<x;k++)
               {
-                     for(l=j+1;l<y;j++)
+                     for(l=j+1;l<y;l++)
                {
                     bigv=A[k][l];
+                    printf("f");
                     if(bigv<=smallv)
                 {
                     temp=smallv;
@@ -911,7 +912,7 @@ void mat_sort( float A[x][y])
           default:
           {
             printf("\a -----------------OPS!! something went wrong. PLEASE! reselect sort method------------------");
-            goto sort_method;
+            goto sort_method ;
           }
 }
 
