@@ -67,7 +67,7 @@ break;
 
         case'e':
 {
-  mat_sort(Z, W, K);
+  mat_sort(Z);
 }
 break;
 
@@ -806,12 +806,11 @@ printf("\n\n\a\t\t SUCCESS!!---> (Matrix 'A') average value = %.2f\n\n\n",mat_av
 
 
 // 4) MATRICES SORT**************************************************************
-void mat_sort( float A[x][y], float B[x][y], float C[x][y])
+void mat_sort( float A[x][y])
 {
   int i,j;
   x=4,y=4;
   int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
-  int B_row_num,B_colm_num,B_chk_row,B_chk_colm;
   int k,l;
   char sort_meth,ch;
  static float temp,smallv,bigv;  // temp is the "tool" to switch array elements places.

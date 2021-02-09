@@ -7,11 +7,6 @@ void mat_sort( float A[x][y], float B[x][y], float C[x][y]);
 int i,j;
 int main()
 {
-for(i=0,j=0;i>4 || j<10; i++,j++)
-{
-printf("%i%i\n",i,j );
-}
-
 
 
 return 0;
