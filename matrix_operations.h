@@ -864,8 +864,8 @@ void mat_sort( float A[x][y])
 
   sort_method:
         printf("\t\t =====================> Choose Sort method (*character!!*) <=====================:\n");// using   sorting algoritihm
-        printf("\t\t (a) Ascending order?\n");
-        printf("\t\t (d) Descending order?\n");
+        printf("\t\t 'a' Ascending order?\n");
+        printf("\t\t 'd' Descending order?\n");
         printf("PLEASE! choose  ==> ");
         ch=getchar();
         sort_meth=ch;
