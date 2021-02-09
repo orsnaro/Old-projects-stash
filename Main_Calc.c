@@ -79,7 +79,7 @@ printf("press \"q\" if you want to solve quadratic equations . \n");
 printf("press \"e\" for Matrix Operations. \n");
 printf("press \"p\" to INCLUDE last result in a new operation\n\n");
 printf("PLEASE! choose  ==> ");
-ch = getche();
+ch = getchar();
 operation_type=ch;
 fflush(stdin);
 

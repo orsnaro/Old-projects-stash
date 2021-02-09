@@ -29,7 +29,7 @@ float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
         printf("press \"d\" if you want to find the average value of an Array  . \n");
         printf("press \"e\" if you want to sort your Matrix\n\n");
         printf("PLEASE! choose  ==> \n ");
-        ch= ();
+        ch= getchar();
         mat_mnu_slct=ch;
 
 
@@ -932,7 +932,3 @@ void mat_sort( float A[x][y])
 
   /* ---------------------------------------------------------------------------------EOF-----------------------------------------------------------------------------------------------*/
 }
-
-
-//stoped here ! 7-2-2021
-//to do: make the to sort algorithims needed by my self tommorow.
