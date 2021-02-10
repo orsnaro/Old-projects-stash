@@ -3,7 +3,7 @@
 
 int x=4;
 int y=4;
-void mat_sort( float A[x][y]);
+int mat_sort( float A[x][y]);
 int i,j;
 int main()
 {
@@ -13,14 +13,15 @@ mat_sort(Z);
 return 0;
 }
 
-void mat_sort( float A[x][y])
+int mat_sort( float A[x][y])
 {
   int i,j;
   x=4,y=4;
-  int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
-  int k,l;
+  int n=-1;
+ static int A_row_num,A_colm_num,A_chk_row,A_chk_colm;
+ static int k,l;
  char sort_meth,c;
- static float temp;  // temp is the "tool" to switch array elements places.
+ static float temp,temp_2;  // temp is the "tool" to switch array elements places.
 
   //starting with array 'A' SECTION:  making sure it filled and correctly.
   do
@@ -80,36 +81,109 @@ void mat_sort( float A[x][y])
 
         switch(sort_meth)
 {
-          case'a':
+          case'a': // can't make an inner\nested  functions  in C with out gnu. SO will write whole "array sort code" inside the switch func. Then maybe later we will define it independently in Main_Calc.c.
   {
-            for(i=0;i<x;i++)
+            for(i=0;i<x;++i)
             {
-              for(j=0;j<y;j++)
+
+              for(j=0;j<y;++j)
+
              {
-                 for(k=i;k<x;k++)
+                 n=-1;
+                 for(k=i;k<x;++k)
               {
-                     for(l=j;l<y;l++) // I don't "yet" know how not to compare the element with it self in 2D+ arrays (btw not a big deal keep it simple omar).
-               {
-                    printf("%d",k);
+                     for(l=j;l<y;++l) // was initialized l=j most of the time. i need to make initialized ==> (k>i?l=0:l=j)
+               {// just dont **** duplicate values !!!! *** #$!$!!$!^%$&!!.
+
+printf("_____________________this will be Deleted after DEBUG!!______________________\n",i,j,k,l);
+                 for(int i_3=0;i_3<x;i_3++)
+                 {
+                 for(int j_3=0;j_3<y;j_3++)
+                 printf("%-.2f\t",A[i_3][j_3] );
+                 printf("\n");
+                 }
+                 printf("_____________________i=%d j=%d k=%d l=%d ______________________\n",i,j,k,l);
+
+                    if(i==k && j==l)
+                    continue;
+
                     if(A[k][l]<A[i][j])
                 {
                     temp=A[i][j];
                     A[i][j]=A[k][l];
                     A[k][l]=temp;
-                    k=i;
-                    l=j+1;
+
                 }
+
+                while(A[i][j]==A[k][l] && i!=k && j!=l ) //now re-arrange equal elements
+                {
+                  printf("Duplicated values counter= %d\n",n+1);
+                  n+=1;
+                  if((l+n)>=y)
+                  {
+                  k+=1;
+                  l=0;
+                  }
+                  else
+                  l+=n;
+
+                  while(A[i][j]==A[k][l] && i!=k && j!=l )
+                  {
+                  temp_2=A[k][l];
+                  for(int i_2=k; i_2>i && i_2>=0; i_2--)
+                  {
+                  for(int j_2=l; (j_2>j || (j_2<=j && i_2>i)) && j_2>=0; j_2--)
+                  {
+                    A[i_2][j_2]=A[i_2][j_2-1];
+                  }
+
+                  }
+                  if((j+1)>=y)
+                    A[i+1][0]=temp_2;
+                  else if ((j+1)<y)
+                    A[i][j+1]=temp_2;
+                    k=i;
+                    l=j;
+
+                  }
+                 }
                }
               }
              }
             }
 
+
   }
-            /*check if two elements are equal does it work?*/
+
           break;
 
           case'd':
   {
+    for(i=x;i>=1;i--)
+    {
+      for(j=y;j>=1;j--)
+     {
+         for(k=i;k>=1;--k)
+      {
+             for(l=j;l>=1;--l) // I don't "yet" know how *NOT TO* compare the element with it self in 2D+ arrays (btw not a big deal keep it simple omar).
+       {
+
+            if(A[k][l]<A[i][j])
+        {
+            temp=A[i][j];
+            A[i][j]=A[k][l];
+            A[k][l]=temp;
+
+        }
+
+
+        }
+
+       }
+      }
+     }
+
+
 
   }
           break;
@@ -126,7 +200,7 @@ void mat_sort( float A[x][y])
 
         //show user's Matrix 'A' final sorted value.
   printf("\t\t------------------------------------OUTPUT------------------------------------ \n");
-  printf("\n (SORTED Arrray 'A')=\n" );
+  printf("\n (SORTED matrix 'A')=\n" );
   for(i=0;i<x;i++)
   {
   for(j=0;j<y;j++)
@@ -136,7 +210,8 @@ void mat_sort( float A[x][y])
 
 
   /* ---------------------------------------------------------------------------------EOF-----------------------------------------------------------------------------------------------*/
-}
+return 0 ;}
 
-//stoped here ! 9-2-2021
-// need to fix sorting equal elements + descinding sorting + sort menu bug.
+//stoped here ! 10-2-2021
+// sortiing equal values not working + sort menu bug.
+//  i think we can fix sorting equal values if we learned how not to compare same alement in 2D+ arrays
