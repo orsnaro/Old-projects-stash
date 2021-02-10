@@ -10,7 +10,6 @@ void mat_sub( float A[x][y], float B[x][y],float C[x][y]);
 void mat_multiply( float A[x][y], float B[x][y],float C[x][y]);
 void mat_avg( float A[x][y], float B[x][y], float C[x][y]);
 void mat_sort( float A[x][y] );
-
 float matrix_operations(float A[x][y], float B[x][y],float C[x][y])
 {
     static char  mat_mnu_slct ;
@@ -928,6 +927,21 @@ void mat_sort( float A[x][y])
   printf("%-.2f\t",A[i][j] );
   printf("\n");
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//******************************MAT SORT A
 
 
   /* ---------------------------------------------------------------------------------EOF-----------------------------------------------------------------------------------------------*/
