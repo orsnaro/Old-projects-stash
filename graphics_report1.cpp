@@ -2,11 +2,13 @@
 // Report #1 done by omar rashad mahmoud salem no.138 section 6
 // 1st year electrical engineering 20/21
 
-#include <graphics.h>
+#include <graphics.h> //we can include them in one header.
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
 #include <direct.h>
+
+
 
 int main(void)
 {
