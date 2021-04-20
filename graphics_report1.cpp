@@ -18,7 +18,7 @@ initgraph(&gdriver, &gmode, (char*)"");
 setbkcolor(11); //sky!!
 cleardevice();
 
-for (theta=0; theta=180; theta+=60)
+for (theta=0; theta==180; theta+=60)
 {
   setcolor(YELLOW);//sunrays
   line(480,y,580,y);
