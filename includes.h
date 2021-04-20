@@ -6,5 +6,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <direct.h>
+#include <mouse.h>
+
 
 #endif
