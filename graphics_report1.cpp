@@ -3,9 +3,9 @@
 // 1st year electrical engineering 20/21
 #include <math.h>
 #include "includes.h"
+
+
 #define PI 3.14159265
-
-
 
 int main(){
 
