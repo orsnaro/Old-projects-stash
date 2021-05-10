@@ -6,5 +6,6 @@
 #include <math.h>
 #include <string.h>
 
-#include <conio.h>
+
 #endif
+#include <conio.h>
