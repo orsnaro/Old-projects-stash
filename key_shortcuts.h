@@ -16,3 +16,4 @@ select same word  or edit same word (not in codelite)  T_T
 very usefull explanation for c functions at : https://www.ibm.com/support/knowledgecenter/ssw_ibm_i_74/rtref/scanf.htm
 
 ======> specialy for ATOM  shortcuts https://github.com/nwinkler/atom-keyboard-shortcuts
+for ECLIPSE =====> ctrl+ shft+L (see keybindings)
