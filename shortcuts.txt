@@ -34,7 +34,7 @@ git push -u origin main
 
 
 
-################ECLIPSE#############IMPORATANT only
+################ECLIPSE#############IMPORTANT only
 
 macro for build and run in eclipse (f12)
 
