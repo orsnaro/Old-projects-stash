@@ -34,13 +34,13 @@ git push -u origin main
 
 
 
-################ECLIPSE#############IMPORTANT only
+################ECLIPSE#############IMPORATANT only
 
 macro for build and run in eclipse (f12)
 
 ctrl+d = delete all line
 
-ctrl+shift+enter = delete to line end
+ctrl+shift+delete = delete to line end
 
 ctrl +alt + up or down = duplicate line
 
@@ -58,7 +58,7 @@ ctrl+k= find next
 
 ctrl+shift+k+ find previous
 
-ctrl+shift+format= auto reformate code
+ctrl+shift+f= auto reformate code
 
 ctrl+b =build code 
 
