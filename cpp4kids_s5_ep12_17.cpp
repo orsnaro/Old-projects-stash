@@ -338,29 +338,33 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w6 cpp4kids 17#
-	int n, a, b, temp = 0, POW1, POW2, sum = 0;
+	int n, a, b, POW1, POW2;
+	int temp = 0;
+	int sum = 0;
 	cin >> n >> a >> b;
 
 // set and store maximum digits
-//check sum of digits each number
+//check sum of digits for each number
 //if its true sum+=n;
 
 	if (n == 0)
 		return 0;
 
-	for (int i = 1; i <= n; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = n; i >= 1; i--) {
+		for (int j = 0; j <= 6; j++) {
 			POW1 = pow(10, j + 1);
 			POW2 = pow(10, j);
 			temp += ((i % POW1) / POW2);
 
 		}
-		if (temp <= b && temp >= a) {
+		if (temp <= b && a <=temp ) {
 			temp = 0;
 			sum += i;
 		}
 	}
-	cout << sum;
-	return 0;
+	cout << sum; // solution should work don't know  why its not!
+	//i can replace inner for loop with while (nice idea check course solution
+
+	/////////WELL DONE !! got em all "almost"
 }
 
