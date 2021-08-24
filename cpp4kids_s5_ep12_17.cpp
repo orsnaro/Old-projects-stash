@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 int main() {
@@ -163,7 +164,68 @@ int main() {
 	*/
 
 	//---------------------------------------------------------------------------------
-					//h.w131 cpp4kids 14#
+	//!!!NOT FROM HOME WORKS (TEST FOR 3n+1 CONJECTURE)!!!!
+/*
+	long long int x, temp;
+	cout << "enter number to check the conjecture!" << endl;
+	cin >> x;
+	cout << LLONG_MAX;
+	for (;;) {
+
+		if (x % 2 == 0) {
+			x = x / 2;
+			cout << x << endl;
+			if (x == 1) {
+				cout << " we entered the loop! :(" << endl;
+				temp++;
+				cout << " new num is=" << temp << endl;
+
+				x = temp;
+				continue;
+			}
+		} else
+			x = 3 * x + 1;
+		cout << x << endl;
+
+		if (x == 1) {
+			cout << " we entered the loop! :(" << endl;
+			temp++;
+			cout << " new num is=" << temp << endl;
+
+			x = temp;
+			continue;
+		}
+
+	}
+
+	*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w13 cpp4kids 14#
+/*
+
+	int case_num, int_num, num, s_sum;
+
+	int i = 0;
+	cin >> case_num;
+
+	while (i < case_num) {
+		cin >> int_num;
+		int j = 0;
+		s_sum = 0;
+		while (j < int_num) {
+			cin >> num;
+			s_sum = s_sum + pow(num, j + 1);
+			j++;
+
+		}
+		cout << s_sum << endl;
+		i++;
+	}
+
+
+*/
 
 
 
@@ -171,5 +233,134 @@ int main() {
 
 
 
+
+	//###################################  <<<<<.17#.>>>>>##############################################
+	//---------------------------------------------------------------------------------
+					//h.w1 cpp4kids 17#
+/*
+
+
+	int star_cros;
+	cin >> star_cros;
+
+	if (star_cros % 2 == 0) //if not odd stop
+		return 0;
+
+	for (int i = 0; i < star_cros; i++) {
+
+		for (int j = 0; j <= star_cros; j++) {
+
+			if ((i + 1 == star_cros / 2 + 1) && (j == star_cros / 2)) {
+
+				cout << '*';
+				break;
+			}
+			if (j == i)
+				cout << '*';
+
+			else if (i == (star_cros) - (j+1))
+				cout << '*';
+
+			else {
+				cout << " ";
+			}
+
+		}
+
+		cout << endl;
+	}
+*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w3 cpp4kids 17#
+//took too much time (saw the solution not to much diff but my code didn't work at all "bug")
+
+/*
+	for (int i = 1; i <= 200; i++) {
+
+		for (int j = 1; j <= 200; j++) {
+
+			for (int k = 1; k <= 200; k++) {
+				int l=i+j-k;
+
+				if(l>=1 && l<=200){
+					cout << i << " " << j << " " << k<< " "  << l << endl;
+				}
+
+
+
+
+
+
+			}
+		}
+	}
+
+	*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w5 cpp4kids 17#
+
+	//NOTE: I was supposed to put the answer incrementally not decrementally...
+/*
+	int max_num, prim_cntr = 0;
+	cin >> max_num;
+
+	if (max_num >= 500) //h.w constrain
+		return 0;
+
+	for (int i = 1; i <= max_num - 1; ++i) {
+
+		if (max_num % (max_num - i) == 0 && max_num != 3 && max_num != 2) {//max_num !== 3,2 are special cases for my 'ONE' loop solution!!.
+			i = 1;
+
+		} else if (max_num % (max_num - i) != 0 || max_num == 2
+				|| max_num == 3) {
+
+			if (i == max_num - 2 || max_num == 2 || max_num == 3) { //max_num == 3,2 are special cases for my 'ONE' loop solution!!.
+				if (prim_cntr != 0)
+					cout << ',';
+
+				cout << max_num;
+				prim_cntr++;
+				if (max_num == 3) {
+					i = 0;
+					max_num--;
+				}
+			}
+		}
+
+	}
+	*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w6 cpp4kids 17#
+	int n, a, b, temp = 0, POW1, POW2, sum = 0;
+	cin >> n >> a >> b;
+
+// set and store maximum digits
+//check sum of digits each number
+//if its true sum+=n;
+
+	if (n == 0)
+		return 0;
+
+	for (int i = 1; i <= n; i++) {
+		for (int j = 0; j < 8; j++) {
+			POW1 = pow(10, j + 1);
+			POW2 = pow(10, j);
+			temp += ((i % POW1) / POW2);
+
+		}
+		if (temp <= b && temp >= a) {
+			temp = 0;
+			sum += i;
+		}
+	}
+	cout << sum;
 	return 0;
 }
+
