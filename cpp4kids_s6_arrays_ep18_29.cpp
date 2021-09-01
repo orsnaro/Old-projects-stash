@@ -232,7 +232,89 @@ int main() {
 
 
 	//---------------------------------------------------------------------------------
-					//h.w13 cpp4kids 20#
+					//h.w13 cpp4kids 20# **//h.w12 is more fun and real day problem
+	/*
+	int mx_ppl, steps;
+
+	cin >> mx_ppl;
+	if (mx_ppl > 200)
+		return 0;
+
+	int main_ary[mx_ppl];
+	cin >> steps;
+
+	for (int i = 0; i < mx_ppl; ++i) {
+		 main_ary[i] = -1;
+	}
+
+	for (int i = steps - 1, cntr = mx_ppl;; i += (steps - 1)) {
+
+		if (i >= mx_ppl) {
+			i -= (mx_ppl+1); //to make it keep looping with same steps
+			i += (steps - 1);
+		}
+
+		if (main_ary[i] == -1) {
+			cntr--;
+			main_ary[i] = cntr;
+			cout << i + 1 << " ";
+			i++;
+		}
+		else { //to skip the removed ppl to the  next nearest unremoved
+			for (int j = i + 1, loops = 0; loops < 2; ++j) {
+				if (j >= mx_ppl) {
+					loops++;
+					j = 0;
+				}
+				if (main_ary[j] == -1) {
+					cntr--;
+					main_ary[j] = cntr;
+					cout << j + 1 << " ";
+					i = j + 1;
+				}
+			}
+
+		}
+
+		if (cntr == 0)
+			break;
+	}
+*/
+//yaaay u did most of 20# h.ws.(u can go back later to solve h.w9 "recaman's". looks fun).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//###################################  <<<<<.23#.>>>>>##############################################
+
+	//---------------------------------------------------------------------------------
+					//h.w8 cpp4kids 23#
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	return 0;
