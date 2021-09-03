@@ -42,7 +42,6 @@ int main() {
 
 			if (j == mx_nms - 1)
 				cout << temp << endl;
-
 		}
 
 	}
@@ -232,7 +231,7 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w13 cpp4kids 20# **//h.w12 is more fun and real day problem
-	/*
+/*
 	int mx_ppl, steps;
 
 	cin >> mx_ppl;
@@ -278,7 +277,7 @@ int main() {
 		if (cntr == 0)
 			break;
 	}
-*/
+	*/
 //yaaay u did most of 20# h.ws.(u can go back later to solve h.w9 "recaman's". looks fun).
 
 
