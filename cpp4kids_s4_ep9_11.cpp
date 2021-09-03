@@ -1,3 +1,15 @@
+//============================================================================
+// Name        : cpp4kids_s4....
+// Author      : Omar.R.S
+// Version     :
+// Copyright   : Your copyright notice
+// Description : solving cpp4kids H.W (if conditions) C++, Ansi-style
+//============================================================================
+
+
+
+
+
 #include <iostream>
 using namespace std;
 

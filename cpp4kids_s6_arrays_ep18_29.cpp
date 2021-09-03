@@ -68,7 +68,6 @@ int main() {
 		scnd_ary[i] = nms_ary[i];
 	}
 
-
 //comparing section
 
 	for (int i = 0, temp; i < nums; ++i) {

@@ -337,7 +337,10 @@ int main() {
 
 
 	//---------------------------------------------------------------------------------
-					//h.w6 cpp4kids 17#
+
+	//h.w6 cpp4kids 17#
+
+	/*
 	int n, a, b, POW1, POW2;
 	int temp = 0;
 	int sum = 0;
@@ -362,9 +365,11 @@ int main() {
 			sum += i;
 		}
 	}
+
+
 	cout << sum; // solution should work don't know  why its not!
 	//i can replace inner for loop with while (nice idea check course solution
-
+*/
 	/////////WELL DONE !! got em all "almost"
 }
 
