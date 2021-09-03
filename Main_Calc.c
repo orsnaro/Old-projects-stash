@@ -195,7 +195,7 @@ float division(float x,float y)
   if(y==0)
 
   printf("\n \n  \a ERROR 0_0 can't divide by \"zero\" please rerun the calculator for a new operation.\n");
-  else
+  else 
 {
   dres=x/y;
    printf("\t\t\t Division answer=%.2f",dres);
