@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <string>
+
 using namespace std;
 
 int main() {
@@ -299,21 +301,65 @@ int main() {
 	//###################################  <<<<<.23#.>>>>>##############################################
 
 	//---------------------------------------------------------------------------------
-					//h.w8 cpp4kids 23#
+			//h.w1 cpp4kids 23#
+/*
+	// NOTE: numeric value of white space is 0 ==> (int)whitespace = 0
+	char main_str[200], is_prfx[200] = { 0 };
+	cin >> main_str >> is_prfx;
+
+	int i, cntr;
+	for (i = 0, cntr = 0; is_prfx[i] != ' '; ++i) {
+
+		if (main_str[i] == is_prfx[i])
+			cntr++;
+		else
+			break;
+	}
+
+	if (cntr == i && cntr != 0)
+		cout << "YES";
+	else
+		cout << "NO";
+*/
 
 
 
 
+	//---------------------------------------------------------------------------------
+					//h.w4 cpp4kids 23#
+	char main_str[200] = { 0 }, is_sbseq[200] = { 0 };
+	cin >> main_str >> is_sbseq;
 
+	int i, j, cntr, sbseq_size = 0;
+	for (i = 0, cntr = 0; main_str[i] != ' '; ++i) {
 
+		for (j = 0 + cntr; is_sbseq[j] != ' '; ++j) {
 
+//j=0 + cntr  is condition to skip comparing founded element  again
+//element VALUES  can be duplicated!
+//e.g.(if is_sbseq[0] found once then we exclude it. next time we start from is_sbseq[1])
+// (if is_sbseq[x] == is_sbseq[y] its okay we'ill search for both NO skipping here!)
+//but order must not change (its a SUB-SEQ.!)
 
+			if (main_str[i] == is_sbseq[j]) {
+				cntr++;
+				break;
+			}
+		}
 
+	}
 
+// I need to count how many elements in is_sbseq[]:
+	for (int var = 0; is_sbseq[var] != ' '; ++var) {
+		sbseq_size++;
+	}
 
+	cout << sbseq_size << ' ' << cntr;
 
-
-
+	if (cntr == sbseq_size)
+		cout << "YES";
+	else
+		cout << "NO";
 
 	return 0;
 }
