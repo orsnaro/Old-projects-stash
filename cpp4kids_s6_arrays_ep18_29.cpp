@@ -327,13 +327,16 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w4 cpp4kids 23#
+
+/*
+
 	char main_str[200] = { 0 }, is_sbseq[200] = { 0 };
 	cin >> main_str >> is_sbseq;
 
 	int i, j, cntr, sbseq_size = 0;
-	for (i = 0, cntr = 0; main_str[i] != ' '; ++i) {
+	for (i = 0, cntr = 0; main_str[i] != '\0'; ++i) {
 
-		for (j = 0 + cntr; is_sbseq[j] != ' '; ++j) {
+		for (j = 0 + cntr; is_sbseq[j] != '\0'; ++j) {
 
 //j=0 + cntr  is condition to skip comparing founded element  again
 //element VALUES  can be duplicated!
@@ -350,16 +353,66 @@ int main() {
 	}
 
 // I need to count how many elements in is_sbseq[]:
-	for (int var = 0; is_sbseq[var] != ' '; ++var) {
+	for (int var = 0; is_sbseq[var] != '\0'; ++var) {
 		sbseq_size++;
 	}
 
-	cout << sbseq_size << ' ' << cntr;
+
 
 	if (cntr == sbseq_size)
 		cout << "YES";
 	else
 		cout << "NO";
+// (NULL = char'\0'= 0) and maybe equal to whitespace  char' '.
+*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w6 cpp4kids 23#
+/*
+	char main_string[200] = { 0 }, grouped_str[200] = { 0 };
+
+	cin >> main_string;
+
+	for (int i = 1; main_string[i] != '\0'; i++) {
+
+		if (i == 1)
+			grouped_str[i - 1] = main_string[i - 1];
+
+		int cntr = 0;
+		while (main_string[i - 1] == main_string[i]) {
+
+			grouped_str[i + 1] = main_string[i];
+
+			if (cntr == 0)
+				grouped_str[i] = main_string[i];
+
+			cntr++;
+			i++;
+		}
+
+		//grouped_str[i] = ' ';
+		//grouped_str[i + 1] = main_string[i];
+
+	}
+
+	cout<< grouped_str;
+*/
+
+
+
+
+
+	//---------------------------------------------------------------------------------
+					//h.w9 cpp4kids 23#
+
+	char main_string[200] = { 0 };// ,grouped_str[200] = { 0 };
+
+	// from string to int  use stoi()
+	//from int to str use to_string()
+	//there is another ways and other functions from c libraries
+
+
 
 	return 0;
 }
