@@ -405,14 +405,151 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w9 cpp4kids 23#
-
-	char main_string[200] = { 0 };// ,grouped_str[200] = { 0 };
-
+//NOTES TO ME!
 	// from string to int  use stoi()
 	//from int to str use to_string()
 	//there is another ways and other functions from c libraries
 
+	char dgt_str[200] = { 0 };
+	static int chr_cntr, LSB;
+
+	cin >> dgt_str;	//at least 6 digits
+
+	for (int i = 0; dgt_str[i] != '\0'; ++i) {
+		chr_cntr++;
+	}
+
+//cout<<"chr_cntr "<<chr_cntr<<endl;
+	LSB = 2 * chr_cntr - 2;
+//cout<<"lsb "<<LSB<<endl;
+
+	char arng_str[2 * chr_cntr] = { 0 };
+
+	for (int i = chr_cntr - 1, j = 0; i < LSB + 1; ++i, ++j) {
+
+		if (j < chr_cntr - 1)
+			arng_str[j] = '0'; //fill zeroes left to the number
+
+		arng_str[i] = dgt_str[j]; //copy the number to arranged array
+	}
+
+//THE important code blocks COMES NOW
+//p1: if last 4 digits ='0' just replace with '5'
+
+	static int easy;
+	for (int i = LSB; i >= LSB - 3; --i) {
+
+		if (arng_str[i] == '0')
+			++easy;
+	}
+
+	if (easy == 4) {
+		for (int i = LSB; i >= LSB - 3; --i)
+			arng_str[i] = '5';
+	}
+
+//p2:
+	else {
+		for (int i = 0, j = 0, finl_add = 0, str2int = 0; i < 4; ++i) {
+//cout<<arng_str<<endl;
+//cout<<'i'<<i<<endl;
+
+			str2int = int(arng_str[LSB - i]) - 48; //48=int('0')
+
+//cout<<"str2int "<<str2int<<endl;
+			finl_add = 5 - (10 - str2int); //if 0 or +ve we use it
+//cout<<"finl_add "<<finl_add<<endl;
+			//previous line is to find the final value of the current digit that we checking
+
+			if (arng_str[LSB - i] + 5 > '9') { //could also use condition  finl_add >=0
+
+				j = 0;
+				while (arng_str[LSB - 1 - i - j] >= '9'
+						&& LSB - 1 - i - j >= chr_cntr - 1) {
+//cout<<"element value "<<arng_str[LSB-1-i-j]<<endl;
+					j++;
+				}
+//cout<<"element value "<<arng_str[LSB-1-i-j]<<endl;
+				cout<<'j'<<j<<endl;
+
+				if ((LSB - 1) - i - j >= chr_cntr - 1) {
+					//I could optimize it later to merge this and else block in one block
+
+					arng_str[LSB - 1 - i - j]++;
+//cout<<arng_str<<endl;
+
+					for (int k = LSB - i; k > LSB - 1 - i - j; --k) {
+						arng_str[k] = '0';
+					}
+//cout<<arng_str<<endl;
+					if ((j > 2 && i == 0) || (i == 1 && j > 1)
+							|| (i == 2 && j > 0)) {
+
+						for (int k = LSB - i; k >= LSB - 3; --k)
+							arng_str[k] = '5';
+//cout<<arng_str<<endl;
+
+						arng_str[LSB - i] = '0' + finl_add;
+//cout<<arng_str<<endl;
+						//could finl_add be negative and we already reached this line!? => ans=NO :D!
+						break;
+					}
+					else {
+
+						for (int k = LSB - i,cntr=-1; k > LSB - 1 - i - j; --k){
+							arng_str[k] = '5';
+							cntr++;
+							j=cntr;
+						}
+//cout<<arng_str<<endl;
+
+						arng_str[LSB - i] = '0' + finl_add;
+//cout<<arng_str<<endl;
+
+						i += j;
+						continue;
+					}
+
+				}
+
+				else { //this runs if the reason while loop -line 467- stopped is cuz we reached MSB
 
 
-	return 0;
+					arng_str[chr_cntr - 2] = '1';
+
+					for (int k = LSB - i; k >= chr_cntr - 1; --k) {
+
+						if (k == LSB - i)
+							arng_str[k] = '0' + finl_add;
+
+						else if (k < LSB - i && k >= LSB - 3)
+							arng_str[k] = '5';
+
+						else if (k < LSB - 3)
+							arng_str[k] = '0';
+
+					}
+					break; //to go to final output directly
+				}
+
+			} else {
+				arng_str[LSB - i] += 5;
+			}
+		}
+	}
+
+//final output //don't forget to skip zeroes at left!.
+
+	for (int i = 0, skp = 1; i < 2 * chr_cntr; ++i) {
+
+		if (skp == 1 && arng_str[i] == '0')
+			continue;
+
+		else {
+			skp = 0;
+			cout << arng_str[i];
+		}
+	}
+
+	return (0);
 }
