@@ -662,9 +662,14 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w4 cpp4kids 26#
+
+/*
+	//I can run the 2 nested loops  by printing and  checking every 2 rounds (x plays o plays = 2 rounds)
+	//Initializing game
 	int size, r, c, round_cntr = 0;
 	bool plyr_swtch = false;
-	static int cros_win, hrz_win, vrtcl_win, ant_crs_win;
+	static int crs_winX, hrz_winX, vrtcl_winX, ant_crs_winX;
+	static int crs_winO, hrz_winO, vrtcl_winO, ant_crs_winO;
 
 	cin >> size;
 	if (size < 3 || size > 9)
@@ -673,8 +678,9 @@ int main() {
 	char game_tbl[size][size];
 	cout << "Round 0" << endl;
 
-	for (int i = 0; i < size; ++i) {//Initializing game
+	for (int i = 0; i < size; ++i) {
 		for (int j = 0; j < size; ++j) {
+
 			game_tbl[i][j] = '*';
 			cout << game_tbl[i][j] << " ";
 		}
@@ -684,16 +690,20 @@ int main() {
 	cout << "#player 1 will use 'x'" << endl << "#player 2 will use 'o'"
 			<< endl;
 
-	for (;;) {//game starts
 
-		cout << endl << "player " << 1 + plyr_swtch << ':'
-				<< " choose location to play (x,y): ";
+	//game starts
+	for (;;) {
+
+		cout << endl << "player " << 1 + plyr_swtch << ':'<< " choose location to play (x,y): ";
 		cin >> r >> c;
+
 
 		if (plyr_swtch == false)
 			game_tbl[r][c] = 'x';
 		else
 			game_tbl[r][c] = 'o';
+
+
 
 		for (int i = 0; i < size; ++i) {
 
@@ -701,39 +711,127 @@ int main() {
 
 				cout << game_tbl[i][j] << " ";
 
-				if (game_tbl[i][i] != '*')
-					cros_win++;
-				if (game_tbl[size - 1 - i][size - 1 - i] != '*')
-					ant_crs_win++;
-				if (game_tbl[i][j] != '*')
-					hrz_win++;
-				if (game_tbl[j][i] != '*')
-					vrtcl_win++;
 
+				if (game_tbl[i][j] != '*') {
+					if (game_tbl[i][j] == 'x')
+						hrz_winX++;
+					else
+					hrz_winO++;
+				}
+
+				if (game_tbl[j][i] != '*') {
+
+					if (game_tbl[j][i] == 'x')
+						vrtcl_winX++;
+					else
+					vrtcl_winO++;
+				}
 			}
-			if (hrz_win == size || vrtcl_win == size) {
-				cout << "player " << 1 + plyr_swtch << " has won!";
+
+			if (game_tbl[i][i] != '*') {
+				if (game_tbl[i][i] == 'x')
+					crs_winX++;
+				else
+				crs_winO++;
+			}
+				if (game_tbl[i][size - 1 - i] != '*') {
+					if (game_tbl[i][size - 1 - i] == 'x')
+						ant_crs_winX++;
+					else
+					ant_crs_winO++;
+				}
+
+			if (hrz_winX == size || vrtcl_winX == size ||hrz_winO == size || vrtcl_winO == size) {
+				cout << "player " << 1 + plyr_swtch << " has won!"<<endl;
+
+				for (int i = 0; i < size; ++i) {// print final wining move
+					for (int j = 0; j < size; ++j) {
+						cout << game_tbl[i][j] << " ";
+					}
+					cout << endl;
+				}
+
 				return (0);
 			}
-			hrz_win = 0;
-			vrtcl_win = 0;
+
+			hrz_winX = 0, hrz_winO = 0;
+			vrtcl_winX = 0, vrtcl_winO = 0;
 			cout << endl;
 		}
 		round_cntr++;
 
-		if (cros_win == size || ant_crs_win == size) {
-			cout << "player " << 1 + plyr_swtch << " has won!";
-			return (0);
 
-		} else if (round_cntr >= size * size) {
+		if (crs_winX == size ||ant_crs_winX == size || crs_winO == size ||ant_crs_winO == size) {
+			cout << "player " << 1 + plyr_swtch << " has won!"<<endl;
+			break;
+
+		}else if (round_cntr >= size * size) {
 			cout << "DROW!";
-			return (0);
+			break;
 		}
 
-		cros_win = 0;
-		ant_crs_win = 0;
+		crs_winX = 0, crs_winO = 0;
+		ant_crs_winX = 0, ant_crs_winO = 0;
+
 		plyr_swtch = !plyr_swtch;
+	}//to next round
+
+
+	for (int i = 0; i < size; ++i) {// print final wining move
+		for (int j = 0; j < size; ++j) {
+			cout << game_tbl[i][j] << " ";
+		}
+		cout << endl;
 	}
+
+	*/
+
+
+
+
+	//---------------------------------------------------------------------------------
+					//h.w6 cpp4kids 26#
+	/*
+int n,m;
+cin>>n>>m;
+ int mat1[n][m],mat2[m][n];
+
+for (int i = 0; i < n; ++i) {
+	for (int j = 0; j < m; ++j) {
+		cin>>mat1[i][j];
+	}
+}
+
+for (int i = 0; i < n; ++i) {
+	for (int j = 0; j < m; ++j) {
+mat2[j][i]=mat1[i][j];
+	}
+}
+
+//this part to make sure only
+/*
+for (int i = 0; i < n; ++i) {
+	for (int j = 0; j < m; ++j) {
+		cout<<mat1[i][j];
+	}
+	cout<<endl;
+}
+
+cout<<"\n \n";
+
+for (int i = 0; i < m; ++i) {
+	for (int j = 0; j < n; ++j) {
+		cout<<mat2[i][j];
+	}
+	cout<<endl;
+}
+
+*/
+
+	//---------------------------------------------------------------------------------
+						//h.w8 cpp4kids 26#
+
+
 
 	return (0);
 }
