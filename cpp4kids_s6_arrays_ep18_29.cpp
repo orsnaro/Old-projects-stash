@@ -5,7 +5,7 @@
 // Copyright   : Your copyright notice (<3)
 // Description : solving cpp4kids H.Ws (arrays) C++, Ansi-style
 //============================================================================
-
+//#include <stdio.h>
 #include <iostream>
 #include <cmath>
 #include <string>
@@ -405,7 +405,9 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w9 cpp4kids 23#
+	/*
 //NOTES TO ME!
+
 	// from string to int  use stoi()
 	//from int to str use to_string()
 	//there is another ways and other functions from c libraries
@@ -549,6 +551,188 @@ int main() {
 			skp = 0;
 			cout << arng_str[i];
 		}
+	}
+*/
+
+
+	//---------------------------------------------------------------------------------
+					//h.w10 cpp4kids 23# (1ST PPROGRAM!)
+
+//maybe in a separated source(if many lines )
+//then we call it here as  a func :D? ""maybe"".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//###################################  <<<<<.26#.>>>>>##############################################
+	//###################################  <<<<<.2D ARRAY.>>>>>##############################################
+
+	//---------------------------------------------------------------------------------
+					//تمرين تسخين h.w0 cpp4kids 25#
+
+	/*
+//NOTE: 2d_ary[row][colm]
+
+	int find_nighbr[3][3] = { { 1, 2, 3 }, { 4, 0, 5 }, { 6, 7, 8 } };
+
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+
+			if (find_nighbr[i][j] == find_nighbr[1][1])
+				continue;
+			cout << find_nighbr[i][j] << endl;
+
+		}
+
+	}
+
+*/
+
+	//---------------------------------------------------------------------------------
+					//h.w3 cpp4kids 26#
+/*
+	int a, b;
+	cin >> a >> b;
+	int mat1[a][b];
+
+	for (int i = 0; i < a; ++i) {
+		for (int j = 0; j < b; ++j) {
+			cin >> mat1[i][j];
+		}
+	}
+
+	for (int i = 0; i < a; ++i) { //flaten the array and bam! u need one loop only :D
+		for (int j = 0; j < b; ++j) {
+
+			if (i - 1 >= 0) {					//up neigh.
+				if (mat1[i - 1][j] >= mat1[i][j])
+					continue;
+			}
+			if (j + 1 < b) {					//right neigh.
+				if (mat1[i][j + 1] >= mat1[i][j])
+					continue;
+			}
+			if (i + 1 < a) {					//down neigh.
+				if (mat1[i + 1][j] >= mat1[i][j])
+					continue;
+			}
+			if (j - 1 >= 0) { //left neigh.
+				if (mat1[i][j - 1] >= mat1[i][j])
+					continue;
+			}
+			if (i - 1 >= 0 && j - 1 >= 0) {					//up left neigh.
+				if (mat1[i - 1][j - 1] >= mat1[i][j])
+					continue;
+			}
+			if (i - 1 >= 0 && j + 1 < b) { //up right neigh.
+				if (mat1[i - 1][j + 1] >= mat1[i][j])
+					continue;
+
+			}
+			if (i + 1 < a && j - 1 >= 0) { //down left neigh.
+				if (mat1[i + 1][j - 1] >= mat1[i][j])
+					continue;
+			}
+			if (i + 1 < a && j + 1 < b) { //down right neigh.
+				if (mat1[i + 1][j + 1] >= mat1[i][j])
+					continue;
+			}
+
+			cout << i << " " << j << endl;
+		}
+
+	}
+
+*/
+
+
+
+	//---------------------------------------------------------------------------------
+					//h.w4 cpp4kids 26#
+	int size, r, c, round_cntr = 0;
+	bool plyr_swtch = false;
+	static int cros_win, hrz_win, vrtcl_win, ant_crs_win;
+
+	cin >> size;
+	if (size < 3 || size > 9)
+		return (0);
+
+	char game_tbl[size][size];
+	cout << "Round 0" << endl;
+
+	for (int i = 0; i < size; ++i) {//Initializing game
+		for (int j = 0; j < size; ++j) {
+			game_tbl[i][j] = '*';
+			cout << game_tbl[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+	cout << "#player 1 will use 'x'" << endl << "#player 2 will use 'o'"
+			<< endl;
+
+	for (;;) {//game starts
+
+		cout << endl << "player " << 1 + plyr_swtch << ':'
+				<< " choose location to play (x,y): ";
+		cin >> r >> c;
+
+		if (plyr_swtch == false)
+			game_tbl[r][c] = 'x';
+		else
+			game_tbl[r][c] = 'o';
+
+		for (int i = 0; i < size; ++i) {
+
+			for (int j = 0; j < size; ++j) {
+
+				cout << game_tbl[i][j] << " ";
+
+				if (game_tbl[i][i] != '*')
+					cros_win++;
+				if (game_tbl[size - 1 - i][size - 1 - i] != '*')
+					ant_crs_win++;
+				if (game_tbl[i][j] != '*')
+					hrz_win++;
+				if (game_tbl[j][i] != '*')
+					vrtcl_win++;
+
+			}
+			if (hrz_win == size || vrtcl_win == size) {
+				cout << "player " << 1 + plyr_swtch << " has won!";
+				return (0);
+			}
+			hrz_win = 0;
+			vrtcl_win = 0;
+			cout << endl;
+		}
+		round_cntr++;
+
+		if (cros_win == size || ant_crs_win == size) {
+			cout << "player " << 1 + plyr_swtch << " has won!";
+			return (0);
+
+		} else if (round_cntr >= size * size) {
+			cout << "DROW!";
+			return (0);
+		}
+
+		cros_win = 0;
+		ant_crs_win = 0;
+		plyr_swtch = !plyr_swtch;
 	}
 
 	return (0);
