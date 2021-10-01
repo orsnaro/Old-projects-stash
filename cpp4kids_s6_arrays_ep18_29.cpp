@@ -20,9 +20,9 @@ int main() {
 	int mx_nms, mx_occrs;
 
 	cin >> mx_nms;
-	int nums_ary[mx_nms];
+	int mains_ary[mx_nms];
 	for (int i = 0; i < mx_nms; ++i) {
-		cin >> nums_ary[i];
+		cin >> mains_ary[i];
 	}
 
 	cin >> mx_occrs;
@@ -36,7 +36,7 @@ int main() {
 	for (int i = 0; i < mx_occrs; ++i) {
 
 		for (int j = 0, cntr = 0, temp = 0; j < mx_nms; ++j) {
-			if (occur_ary[i] == nums_ary[j]) {
+			if (occur_ary[i] == mains_ary[j]) {
 				cntr++;
 				temp = j;
 			} else if (cntr == 0)
@@ -57,22 +57,22 @@ int main() {
 // 1st solution: i will iterate more than once :) but not with the main array !! XD
 // O(n)=n^2 approx
 
-	int nums, scnd_ary[300];
+	int mains, scnd_ary[300];
 
-	cin >> nums; //input section
-	if (nums < 3)
+	cin >> mains; //input section
+	if (mains < 3)
 		return 0;
 
-	 int nms_ary[nums];
-	for (int i = 0; i < nums; ++i) {
+	 int nms_ary[mains];
+	for (int i = 0; i < mains; ++i) {
 		cin >> nms_ary[i];
 		scnd_ary[i] = nms_ary[i];
 	}
 
 //comparing section
 
-	for (int i = 0, temp; i < nums; ++i) {
-		for (int j = i + 1; j < nums; ++j) {
+	for (int i = 0, temp; i < mains; ++i) {
+		for (int j = i + 1; j < mains; ++j) {
 
 			if (scnd_ary[i] >= scnd_ary[j]) {
 				temp = scnd_ary[i];
@@ -97,18 +97,18 @@ int main() {
 	//2nd solution(faster) : Iterate only once
 //O(n)=n approx maybe i make it log(n) later
 
-	int nums, st_lwst = 10000, nd_lwst = 10001, rd_lwst = 10002;
+	int mains, st_lwst = 10000, nd_lwst = 10001, rd_lwst = 10002;
 
-	cin >> nums; //input section
-	if (nums < 3)
+	cin >> mains; //input section
+	if (mains < 3)
 		return 0;
 
-	int nms_ary[nums];
-	for (int i = 0; i < nums; ++i)
+	int nms_ary[mains];
+	for (int i = 0; i < mains; ++i)
 		cin >> nms_ary[i];
 
 //comparing section
-	for (int i = 0; i < nums; ++i) {
+	for (int i = 0; i < mains; ++i) {
 
 		if (nms_ary[i] < st_lwst) {
 			rd_lwst = nd_lwst;
@@ -139,6 +139,7 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w7 cpp4kids 20#
+	//course solution is 24 lines mine is 40 approx :(
 /*
 	int mx_nm, freq_ary[770] = { 0 }, freq_copy[770] = { 0 };
 
@@ -155,7 +156,7 @@ int main() {
 			freq_ary[main_ary[i] * (-1) + 270]++;
 
 		freq_ary[main_ary[i]]++;
-//we made negative nums starts after index 270 in freq_ary => e.g.(-1=271)
+//we made negative mains starts after index 270 in freq_ary => e.g.(-1=271)
 //this is because we want  to make  negative index BUT we can't so we ciphered it!
 	}
 
@@ -303,12 +304,12 @@ int main() {
 	//---------------------------------------------------------------------------------
 			//h.w1 cpp4kids 23#
 /*
-	// NOTE: numeric value of white space is 0 ==> (int)whitespace = 0
+	// NOTE: maineric value of white space is 0 ==> (int)whitespace = 0
 	char main_str[200], is_prfx[200] = { 0 };
 	cin >> main_str >> is_prfx;
 
 	int i, cntr;
-	for (i = 0, cntr = 0; is_prfx[i] != ' '; ++i) {
+	for (i = 0, cntr = 0; is_prfx[i] != ' '; ++i) {//another condition i < (int)is_prfx.size()
 
 		if (main_str[i] == is_prfx[i])
 			cntr++;
@@ -320,8 +321,8 @@ int main() {
 		cout << "YES";
 	else
 		cout << "NO";
-*/
 
+*/
 
 
 
@@ -329,7 +330,6 @@ int main() {
 					//h.w4 cpp4kids 23#
 
 /*
-
 	char main_str[200] = { 0 }, is_sbseq[200] = { 0 };
 	cin >> main_str >> is_sbseq;
 
@@ -338,11 +338,11 @@ int main() {
 
 		for (j = 0 + cntr; is_sbseq[j] != '\0'; ++j) {
 
-//j=0 + cntr  is condition to skip comparing founded element  again
-//element VALUES  can be duplicated!
-//e.g.(if is_sbseq[0] found once then we exclude it. next time we start from is_sbseq[1])
+//j=0 + cntr  is condition to skip comparing founded element  again.
+//meaning:  element VALUES  can be duplicated but founded exact element again? no!
+//e.g.(if element with specific indx [0] was found once then we exclude it. next time we start from indx[1])
 // (if is_sbseq[x] == is_sbseq[y] its okay we'ill search for both NO skipping here!)
-//but order must not change (its a SUB-SEQ.!)
+//but order must not change i.e.(its a SUB-SEQ.!)
 
 			if (main_str[i] == is_sbseq[j]) {
 				cntr++;
@@ -355,7 +355,7 @@ int main() {
 // I need to count how many elements in is_sbseq[]:
 	for (int var = 0; is_sbseq[var] != '\0'; ++var) {
 		sbseq_size++;
-	}
+	}//or make it string and just ==> sbseq_size = (int) is_sbseq.size();
 
 
 
@@ -366,9 +366,9 @@ int main() {
 // (NULL = char'\0'= 0) and maybe equal to whitespace  char' '.
 */
 
-
 	//---------------------------------------------------------------------------------
 					//h.w6 cpp4kids 23#
+	//checked it 25/9/2021 suddenly doesn't work but its easy  to remade
 /*
 	char main_string[200] = { 0 }, grouped_str[200] = { 0 };
 
@@ -391,8 +391,8 @@ int main() {
 			i++;
 		}
 
-		//grouped_str[i] = ' ';
-		//grouped_str[i + 1] = main_string[i];
+		grouped_str[i] = ' ';
+		grouped_str[i + 1] = main_string[i];
 
 	}
 
@@ -405,6 +405,7 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w9 cpp4kids 23#
+	//course made waay shorter
 	/*
 //NOTES TO ME!
 
@@ -430,9 +431,9 @@ int main() {
 	for (int i = chr_cntr - 1, j = 0; i < LSB + 1; ++i, ++j) {
 
 		if (j < chr_cntr - 1)
-			arng_str[j] = '0'; //fill zeroes left to the number
+			arng_str[j] = '0'; //fill zeroes left to the mainber
 
-		arng_str[i] = dgt_str[j]; //copy the number to arranged array
+		arng_str[i] = dgt_str[j]; //copy the mainber to arranged array
 	}
 
 //THE important code blocks COMES NOW
@@ -582,10 +583,11 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//تمرين تسخين h.w0 cpp4kids 25#
-
-	/*
+	//or use direction array di[8] = { 1, 0, -1, 0, -1, 1, -1, 1 };
+	//                       dj[8] = { 0, 1, 0, -1, -1, 1, 1, -1 };
+	//above means ==> direction[8]={ d, r,  u,  l, ul, dr, ur, dl };
 //NOTE: 2d_ary[row][colm]
-
+/*
 	int find_nighbr[3][3] = { { 1, 2, 3 }, { 4, 0, 5 }, { 6, 7, 8 } };
 
 	for (int i = 0; i < 3; ++i) {
@@ -603,6 +605,7 @@ int main() {
 
 	//---------------------------------------------------------------------------------
 					//h.w3 cpp4kids 26#
+	//can use direc arra also but 3rd 8 steps loop will be there insted of 8 if statement
 /*
 	int a, b;
 	cin >> a >> b;
@@ -665,6 +668,7 @@ int main() {
 
 /*
 	//I can run the 2 nested loops  by printing and  checking every 2 rounds (x plays o plays = 2 rounds)
+
 	//Initializing game
 	int size, r, c, round_cntr = 0;
 	bool plyr_swtch = false;
@@ -697,6 +701,11 @@ int main() {
 		cout << endl << "player " << 1 + plyr_swtch << ':'<< " choose location to play (x,y): ";
 		cin >> r >> c;
 
+//WARNING: added next  if condition  without chk
+if(game_tbl[r][c]!='*' || r < 0 ||c < 0 || r >= size ||c >= size){
+cout<< "Invalid. Try again \n";
+continue;
+}
 
 		if (plyr_swtch == false)
 			game_tbl[r][c] = 'x';
@@ -807,9 +816,10 @@ for (int i = 0; i < n; ++i) {
 mat2[j][i]=mat1[i][j];
 	}
 }
+//end of solution
 
-//this part to make sure only
-/*
+
+//this part to check only
 for (int i = 0; i < n; ++i) {
 	for (int j = 0; j < m; ++j) {
 		cout<<mat1[i][j];
@@ -830,8 +840,54 @@ for (int i = 0; i < m; ++i) {
 
 	//---------------------------------------------------------------------------------
 						//h.w8 cpp4kids 26#
+//I hate who says 1 is not prime number , ***%$!@* change PRIME to any other word!
+	//done one try + less lines + I guess not complex than course solution :D not the only one though!
 
+	/*
+	int main_ary[200][200] = { 0 };
+	int n, m;
 
+	int q;
+	int i2, j2, r, c;
+
+	cin >> n >> m;
+	int half_value = 0, prime_cntr = 0;
+	bool no_prime = 0;
+
+	for (int i = 0; i < n; ++i)
+		for (int j = 0; j < m; ++j)
+			cin >> main_ary[i][j];
+
+	cin >> q;
+	for (int i = 0; i < q; ++i) {
+
+		cin >> i2 >> j2 >> r >> c;
+
+		for (int i = i2; i < i2 + r; ++i) {
+			for (int j = j2; j < j2 + c; ++j) {	//sub_array[0][0] "1st element" == main_ary[i][j]);
+
+				half_value = main_ary[i][j] / 2;
+
+				for (int k = 2; k <= half_value; ++k) {
+
+					if (main_ary[i][j] % k == 0) {
+						no_prime = 1;
+						break;
+					}
+
+				}
+
+				if (no_prime == 0)
+					prime_cntr++;
+
+			}
+		}
+		cout << prime_cntr << endl;
+	}
 
 	return (0);
 }
+ */
+
+//hurray finished ur s6 homeworks !!! :D (actually ppproject missing but u will do similar later on)
+
