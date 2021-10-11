@@ -14,6 +14,7 @@
 
 int main( int, char** )
 {
+
    std::map< int, std::wstring > errors;
    errors[0]                      = L"The operating system is out of memory or resources.";
    errors[ERROR_FILE_NOT_FOUND]   = L"The specified file was not found.";
