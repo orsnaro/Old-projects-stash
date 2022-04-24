@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : cpp4kids_s7(functions)....
+// Name        :....
 // Author      : Omar.R.S
 // Version     :
 // Copyright   : Your copyright notice (<3)
-// Description : solving cpp4kids H.Ws (functions) C++, Ansi-style
+// Description :  C++, Ansi-style
 //============================================================================
 //INCLUDES
 #include <windows.h>
