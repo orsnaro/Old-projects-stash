@@ -3,7 +3,7 @@
 --v 0.2 (25/12/21)
 --v 0.3 (30/12/21)
 --v 1.0 (1-1-2022)
---*this is a (reduced) version no extra cnostraints and features + no excessive commenting*--
+--*this is a (reduced) version no extra experimental cnostraints and features + no excessive commenting*--
 --intialization
 
 CREATE DATABASE BLOOD_BANK ;
