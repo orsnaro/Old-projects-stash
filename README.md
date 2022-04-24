@@ -1,4 +1,6 @@
 # STu-dy-old-projects/SQL_blood_bank_noUI
+this branch is old branch moved form my old private repo
+
 this needs
 
 1)some automaiton between tables
