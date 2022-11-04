@@ -6,7 +6,7 @@
  *          this is  this is my first project written in c language <3  i tried not           *
   *                  to make the easiest\efficient calculator code!!                         *
    *       but tried hard -(not too hard XD- to practice all what i learned together        *
-    *                          at once "pointers EXXLUDED!".                               *
+    *                          at once "pointers EXCLUDED!".                               *
      *                                                                                    *
       *                     All Rights Reserved 2020/2021 ©                              *
        *                                                                                *
