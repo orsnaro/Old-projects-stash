@@ -1,0 +1,340 @@
+Development environment preparation
+
+CRITERIA
+MEETS SPECIFICATIONS
+Create modules folders
+
+Create a new project
+Create "Application" folder
+Create "Card" folder
+Create "Terminal" folder
+Create "Server" folder
+Note: To create a folder in Microsoft Visual Studio
+
+In the solution explorer, right-click on the project name
+Go to Add
+Select Folder
+Give a name to that folder
+You should deliver a screenshot of the solution explorer that clarifies your folder structure.
+
+Create .c and .h file for each module
+
+In the "Application" folder create app.c and app.h files
+In the "Card" folder create card.c and card.h files
+In the "Terminal" folder create terminal.c and terminal.h files
+In the "Server" folder create server.c and server.h files
+Note: To create a file into a folder in Microsoft Visual Studio
+
+In the solution explorer, right-click on the folder you want
+Go to Add
+Select New Item
+Select file type, .cpp or .h
+If a .cpp is chosen, change the extension to .c
+Give a name to that file"
+You should deliver a screenshot of the solution explorer that clarifies files in each folder.
+
+Add header file gaurd
+
+In the app.h file add the header file guard
+In the card.h file add the header file guard
+In the terminal.h file add the header file guard
+In server.h file add the header file guard
+You should deliver a screenshot for each .h file, file name must appear in the screenshot and the header file gaurd
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement the card module
+
+CRITERIA
+MEETS SPECIFICATIONS
+Fill in card.h file with functions' prototypes and typedefs
+
+Use the following prototypes as is:
+
+EN_cardError_t getCardHolderName(ST_cardData_t *cardData);
+EN_cardError_t getCardExpiryDate(ST_cardData_t *cardData);
+EN_cardError_t getCardPAN(ST_cardData_t *cardData);
+Use the following typedef as-is:
+typedef struct ST_cardData_t
+{
+uint8_t cardHolderName[25];
+uint8_t primaryAccountNumber[20];
+uint8_t cardExpirationDate[6];
+}ST_cardData_t;
+
+typedef enum EN_cardError_t
+{
+OK, WRONG_NAME, WRONG_EXP_DATE, WRONG_PAN
+}EN_cardError_t;
+
+You should deliver a screenshot for your card.h file
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement getCardHolderName function
+
+This function will ask for the cardholder's name and store it into card data.
+Card holder name is 24 characters string max and 20 min.
+If the cardholder name is NULL, less than 20 characters or more than 24 will return WRONG_NAME error, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement getCardExpiryDate function
+
+This function will ask for the card expiry date and store it in card data.
+Card expiry date is 5 characters string in the format "MM/YY", e.g "05/25".
+If the card expiry date is NULL, less or more than 5 characters, or has the wrong format will return WRONG_EXP_DATE error, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement getCardPAN function
+
+This function will ask for the card's Primary Account Number and store it in card data.
+PAN is 20 characters alphanumeric only string 19 character max, and 16 character min.
+If the PAN is NULL, less than 16 or more than 19 characters, will return WRONG_PAN error, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement the terminal module
+
+CRITERIA
+MEETS SPECIFICATIONS
+Fill in terminal.h file with functions' prototypes and typedefs
+
+Use the following prototypes as is:
+
+EN_terminalError_t getTransactionDate(ST_terminalData_t *termData);
+EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termData);
+EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData);
+EN_terminalError_t getTransactionAmount(ST_terminalData_t *termData);
+EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData);
+EN_terminalError_t setMaxAmount(ST_terminalData_t *termData);
+Use the following typedef as is:
+typedef struct ST_terminalData_t
+{
+float transAmount;
+float maxTransAmount;
+uint8_t transactionDate[11];
+}ST_terminalData_t;
+
+typedef enum EN_terminalError_t
+{
+OK, WRONG_DATE, EXPIRED_CARD, INVALID_CARD, INVALID_AMOUNT, EXCEED_MAX_AMOUNT, INVALID_MAX_AMOUNT
+}EN_terminalError_t ;
+
+You should deliver a screenshot for your terminal.h file
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement getTransactionDate function
+
+This function will ask for the transaction data and store it in terminal data.
+Transaction date is 10 characters string in the format DD/MM/YYYY, e.g 25/06/2022.
+If the transaction date is NULL, less than 10 characters or wrong format will return WRONG_DATE error, else return OK.
+Optional:
+The function will read the current date from your computer and store it into terminal data with the mentioned size and format.
+
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement isCardExpried function
+
+This function compares the card expiry date with the transaction date.
+If the card expiration date is before the transaction date will return EXPIRED_CARD, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement gatTransactionAmount function
+
+This function asks for the transaction amount and saves it into terminal data.
+If the transaction amount is less than or equal to 0 will return INVALID_AMOUNT, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+Implement isBelowMaxAmount function
+
+This function compares the transaction amount with the terminal max amount.
+If the transaction amount is larger than the terminal max amount will return EXCEED_MAX_AMOUNT, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement setMaxAmount function
+
+This function sets the maximum allowed amount into terminal data.
+Transaction max amount is a float number.
+If transaction max amount less than or equal to 0 will return INVALID_MAX_AMOUNT error, else return OK.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement the server module
+
+CRITERIA
+MEETS SPECIFICATIONS
+Fill in server.h file with functions' prototypes and typedefs
+
+Use the following prototypes as is:
+
+EN_transState_t recieveTransactionData(ST_transaction_t *transData);
+EN_serverError_t isValidAccount(ST_cardData_t *cardData);
+EN_serverError_t isAmountAvailable(ST_trminalData_t *termData);
+EN_serverError_t saveTransaction(ST_transaction_t *transData);
+EN_serverError_t getTransaction(uint32_t transactionSequenceNumber, ST_transaction_t *transData);
+Use the following typedef as-is:
+typedef struct ST_transaction_t
+{
+ST_cardData_t cardHolderData;
+ST_trminalData_t terminalData;
+EN_transState_t transState;
+uint32_t transactionSequenceNumber;
+}ST_transaction;
+
+typedef enum EN_transState_t
+{
+APPROVED, DECLINED_INSUFFECIENT_FUND, DECLINED_STOLEN_CARD, INTERNAL_SERVER_ERROR
+}EN_transStat_t;
+
+typedef enum EN_serverError_t
+{
+OK, SAVING_FAILED, TRANSACTION_NOT_FOUND, ACCOUNT_NOT_FOUND, LOW_BALANCE
+}EN_serverError_t ;
+
+typedef struct ST_accountsDB_t
+{
+float balance;
+uint8_t primaryAccountNumber[20];
+}ST_accountsDB_t;
+
+You should deliver a screenshot for your server.h file.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement server-side accounts' database
+
+Create a global array of ST_accountsDB_t for the valid accounts database
+Fill in the array initially with any valid data
+This array has a maximum of 255 element/account data
+You should deliver a screenshot of your accounts database array
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement server-side transactions' database
+
+Create a global array of ST_transaction_t
+Fill in the array initially with 0s.
+This array has a maximum of 255 element/transaction data
+You should deliver a screenshot of your transaction database array
+Implement recieveTransactionData function
+
+This function will take all transaction data and validate its data.
+It checks the account details and amount availability.
+If the account does not exist return DECLINED_STOLEN_CARD, if the amount is not available will return DECLINED_INSUFFECIENT_FUND, if a transaction can't be saved will return INTERNAL_SERVER_ERROR and will not save the transaction, else returns APPROVED.
+It will update the database with the new balance.
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement isValidAccount function
+
+This function will take card data and validate these data.
+It checks if the PAN exists or not in the server's database.
+If the PAN doesn't exist will return DECLINED_STOLEN_CARD, else will return OK
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement isAmountAvailable function
+
+This function will take terminal data and validate these data.
+It checks if the transaction's amount is available or not.
+If the transaction amount is greater than the balance in the database will return LOW_BALANCE, else will return OK
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+Implement saveTransaction function
+
+This function will take all transaction data into the transactions database.
+It gives a sequence number to a transaction, this number is incremented once a transaction is processed into the server.
+If saves any type of transaction, APPROVED or DECLINED, with the specific reason for declining/transaction state.
+If transaction can't be saved will return SAVING_FAILED, else will return OK
+You should deliver a maximum 2min video to discuss your implementation and run different test cases on this function
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement the application
+
+CRITERIA
+MEETS SPECIFICATIONS
+Fill in application.h file with functions' prototypes
+
+Use the following prototypes as-is:
+void appStart(void);
+
+You should deliver a screenshot for your application.h file.
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Implement appStart function
+
+Please refere to the flow chart attached under the instructions video in order to implement this application.
+You should deliver:
+
+All project folders and files
+Video record where you will discuss your implementation (maximum 3min)
+Testing the application
+
+CRITERIA
+MEETS SPECIFICATIONS
+Transaction approved user story
+
+As a bank customer have an account and has a valid and not expired card, I want to withdraw an amount of money less than the maximum allowed and less than or equal to the amount in my balance, so that I am expecting that the transaction is approved and my account balance is reduced by the withdrawn amount.
+
+You should deliver a video for testing this user story:
+1- Mention test data you are using
+2- Test result must be clear - is it passed or failed
+
+Exceed the maximum amount user story
+
+As a bank customer have an account, that has a valid and not expired card, I want to withdraw an amount of money that exceeds the maximum allowed amount so that I am expecting that the transaction declined.
+You should deliver a video for testing this user story:
+
+1- Mention test data you are using
+2- Test result must be clear - is it passed or failed
+
+Insufficient fund user story
+
+As a bank customer have an account and has a valid and not expired card, I want to withdraw an amount of money less than the maximum allowed and larger than the amount in my balance so that I am expecting that the transaction declined.
+You should deliver a video for testing this user story:
+
+1- Mention test data you are using
+2- Test result must be clear - is it passed or failed
+
+Expired card user story
+
+As a bank customer have an account, have a valid but expired card, I want to withdraw an amount of money so that I expect that the transaction declined.
+
+You should deliver a video for testing this user story:
+1- Mention test data you are using
+2- Test result must be clear - is it passed or failed"
+
+Invalid card user story
+
+As a bank customer have an account and has a valid and not expired stolen card, I want to block anyone from using my card so that I am expecting that any transaction made by this card is declined.
+
+You should deliver a video for testing this user story:
+1- Mention test data you are using
+2- Test result must be clear - is it passed or failed"
+
+Suggestions to Make Your Project Stand Out!
+In getCardPAN function:
+
+Give PAN that is a Luhn number, Luhn number generator, and checker
+
+In terminal implement isValidCard function:
+
+This function checks if the PAN is a Luhn number or not.
+If PAN is not a Luhn number will return INVALID_CARD, else return OK.
+In server implement getTransaction function:
+
+This function will take a transaction sequence number and search for this transaction in the database.
+If the transaction can't be found will return TRANSACTION_NOT_FOUND, else will return OK and store the transaction in a structure
+Server-side accounts DB:
+
+Instead of a global array create a text file "Accounts DB.txt" that stores all account data and read this file into your application
+Instead of a global array create a text file "Transactions DB.txt" where you will save all transactions and read if you need
+Server-side transactions DB:
+
+Instead of a global array create a text file "Transactions DB.txt" where you will save all transactions and read if you need
+Fraud card user story:
+
+As a bank administrator, I want to issue my own cards, so that I am expecting that any transaction made by any fraud card (failed in Luhun check) is declined.
