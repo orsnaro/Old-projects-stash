@@ -237,7 +237,7 @@ constraint Chk_RqstAge            check (age >= 18),
 constraint Chk_DnrXorRecp         check ((is_donor != null and is_recp =  null) or (is_donor = null and is_recp != null))
 );
 
---trigger
+--trigger (this section is not completed delete them to try out the database)
 
 CREATE TRIGGER  trg_audit_request_log
 ON request_log  
