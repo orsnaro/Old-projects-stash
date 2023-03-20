@@ -4,6 +4,7 @@ import pytesseract as tsr
 
 	# TODO : the car_plate reader function
 	# TODO : the simple id card reader function
+	
 def car_plate_reader () : ...
 
 def simple_id_reader () : 

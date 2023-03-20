@@ -1,6 +1,10 @@
 import sqlite3
 from sqlite3 import Error
 
+# TODO : complete db_cmd() function
+# TODO : error handling (expired license .. etc)
+
+
 def connect_db() :
 	def_db = r"./temp.db"
 	connect_obj = None
