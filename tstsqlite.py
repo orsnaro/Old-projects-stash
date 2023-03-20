@@ -81,28 +81,28 @@ def build_db() : # only once
 	create_db(conn) #inside will make the 4 main tables : data , park status , event log , total available
 	cur = conn.cursor()
 
-# def db_cmd( cmd : int , id : str) : 
-# 	if cmd is 0 : # park car command
-# 		cursor  , conn = connect_db()
-# 		#check if parking is full return parking full err (from available table)
-# 		#else :
-# 		#take id  and get all data fro personal data table 
-# 		# take all persons data and add new event in events log table ( event type : occupy parking cell)
-# 		# update parking status table ( take the nearist available parking) and update total available table
-# 		# increase available counter in tot_availabel table
-# 		# ( this is done by select old value fetch it +1 then update the table)
-# 		# return NOThing important END
+def db_cmd( cmd : int , id : str) : 
+	if cmd is 0 : # park car command
+		cursor  , conn = connect_db()
+		#check if parking is full return parking full err (from available table)
+		#else :
+		#take id  and get all data fro personal data table 
+		# take all persons data and add new event in events log table ( event type : occupy parking cell)
+		# update parking status table ( take the nearist available parking) and update total available table
+		# increase available counter in tot_availabel table
+		# ( this is done by select old value fetch it +1 then update the table)
+		# return NOThing important END
 
-# 	elif cmd is 1 : ...  # get car from park command
-# 		# query the parking status table  by id
-# 		# if car isnt there return no matching id found err
-# 		# els:
-# 		# get all personal data from personal data table by id
-# 		# register new event in event log table with data you got (event type = free parking cell )
-# 		# update parking status table 
-# 		#decrease available counter in tot_availabel table 
-# 		# ( this is done by select old value fetch it -1 then update the table)
-# 		# return parking cell number
+	elif cmd is 1 : ...  # get car from park command
+		# query the parking status table  by id
+		# if car isnt there return no matching id found err
+		# els:
+		# get all personal data from personal data table by id
+		# register new event in event log table with data you got (event type = free parking cell )
+		# update parking status table 
+		#decrease available counter in tot_availabel table 
+		# ( this is done by select old value fetch it -1 then update the table)
+		# return parking cell number
 		
 if __name__ == "__main__" :
 	build_db()
