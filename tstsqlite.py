@@ -1,64 +1,81 @@
 import sqlite3
 from sqlite3 import Error
 
-# TODO : complete db_cmd() function
+
 # TODO : error handling (expired license .. etc)
-
-
-def connect_db() :
+# TODO : tickting and park cost system ( calc diff between time stamps and ticket is the event id no)
+# TODO :
+# (not very imp) make sure that copying , reassigning the connection and cursor objects
+# doesnt make big problems or memory leaks
+###########################################################################
+def connect_db():
 	def_db = r"./temp.db"
 	connect_obj = None
-	
+
 	try:
-		connect_obj =  sqlite3.connect(def_db)
-		return  connect_obj
-	
-	except Error as e :
-		print (e)
-	
+		# connect_obj = sqlite3.connect(def_db, autocommit=True) # autocommite doesnt work in this version
+		connect_obj = sqlite3.connect(def_db)
+		connect_obj.execute("PRAGMA foreign_keys = ON")
+		return connect_obj
 
-def create_db(conn) :
-	cursor = conn.cursor()
+	except Error as e:
+		print(e)
+###########################################################################
+def create_db(conn):
+    cursor = conn.cursor()
 
-	cursor.execute( """
+    # table 1
+    cursor.execute("""
 	CREATE TABLE IF NOT EXISTS people_info (
-	id integer PRIMARY KEY,
+	id text PRIMARY KEY,
 	name text NOT NULL,
 	car_model text,
-	license_exp_date DATE 
+	license_exp_date DATE
 	);
 	""")
-	
-	cursor.execute("""
+
+    # table 2 event type : 0 == occupy a cell , 1 == free a cell
+    cursor.execute("""
 	CREATE TABLE IF NOT EXISTS event_log(
-	event_id integer PRIMARY KEY,
-	person_id integer NOT NULL,
+	event_id integer PRIMARY KEY autoincrement,
+	person_id text NOT NULL,
 	event_type integer NOt NULL,
-	Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT  NULL
+	Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT  NULL,
+	FOREIGN KEY (person_id) REFERENCES people_info(id)
 	);
-	
 	""")
 
-	cursor.execute("""
+    # table 3 status : 0 = available , 1 = full , 2 = maintainance
+    cursor.execute("""
 	CREATE TABLE IF NOT EXISTS parking_status(
-	unit_id integer NOT NULL,
+	unit_id integer NOT NULL default 1,
 	cell_id integer NOT NULL,
-	taken_by integer ,
-	status integer 
+	taken_by text default NULL,
+	status integer default 0 ,
+	FOREIGN KEY (taken_by) REFERENCES people_info(id)
 	);
 	""")
 
-	cursor.execute("""
+    # table 4
+    cursor.execute("""
 	CREATE TABLE IF NOT EXISTS total_available(
-	available_counter integer default 6
+	dummy integer default 1,
+	available_counter integer
 	);
-	
 	""")
 
-	 #test sample of non real data 
-	cursor.execute( """
-	INSERT INTO people_info (id, name, car_model, license_exp_date) 
-	VALUES 
+    # initialize the coutner to max value available
+    # first element actually no need 2nd is the max number of cells
+    mx_sz = (1, 6)
+
+    cursor.execute("""insert into total_available (dummy , available_counter)
+							values (? , ?); """, mx_sz)
+    conn.commit()  # some statements need commit / but we enabled auto commit
+
+    # test sample of non real people info
+    cursor.execute("""
+	INSERT INTO people_info (id, name, car_model, license_exp_date)
+	VALUES
 	(1234567890123, 'John Doe', 'Toyota Camry 2015', '2022-05-31'),
 	(2345678901234, 'Jane Smith', 'Honda Accord 2016', '2023-01-15'),
 	(3456789012345, 'Ahmed Ali', 'Nissan Altima 2017', '2022-11-30'),
@@ -72,41 +89,135 @@ def create_db(conn) :
 	(4567832109876,'Omar Ali','Honda Civic 2018','2023-08-15'),
 	(5678943210987,'Rania Ahmed','Toyota RAV4 2016','2022-04-30'),
 	(6789054321098,'Khaled Hassan','Nissan Maxima 2015','2021-11-15'),
-	(7890165432109,'Laila Saleh','Chevrolet Malibu 2014','2021-05-31'), 
+	(7890165432109,'Laila Saleh','Chevrolet Malibu 2014','2021-05-31'),
 	(8901276543210,'Mona Mohammed','Hyundai Elantra 2013','2020-12-15'),
 	(9012387654321,'Hassan Ali','Kia Sportage2009','2024-12-15');
 	""")
-	conn.commit() # for insert delete or update
+    conn.commit()  # some statements need commit / but we enabled auto commit
 
-
-
-def build_db() : # only once
+    # insert initial data for parking status table
+    cursor.execute("""
+	insert into parking_status (unit_id , cell_id)
+	values
+	(1 ,  0),
+	(1 ,  1),
+	(1 ,  2),
+	(1 ,  3),
+	(1 ,  4),
+	(1 ,  5);
+	""")
+    conn.commit()  # some statements need commit / but we enabled auto commit
+###########################################################################
+def build_db():  # only once to create database
 	conn = connect_db()
-	create_db(conn) #inside will make the 4 main tables : data , park status , event log , total available
-	cur = conn.cursor()
+	# inside create_db() will make the 4 main tables 
+	# -> people_info , parking_status , event_log , total_available
+	create_db(conn)
+###########################################################################
+def park_car_db(conn , cmd ,id) : # park car command to update database
+	cursor = conn.cursor()
+# check if parking is full return parking full err (from available table)
+	car_counter_query = (
+		''' select available_counter from total_available where available_counter > 0 ;''')
+	cursor.execute(car_counter_query)
+	# if cntr len() == 0 then no availble cells parking is full
+	temp_cntr = cursor.fetchall()
 
-def db_cmd( cmd : int , id : str) : 
-	if cmd is 0 : # park car command
-		cursor  , conn = connect_db()
-		#check if parking is full return parking full err (from available table)
-		#else :
-		#take id  and get all data fro personal data table 
+	if len(temp_cntr) == 0:
+		conn.close()
+		print (" debug message : Fail parking is full! ")
+		return 0  # fail park is full
+	else:
+		# take id  and get all data from people_info table ( NO NEED FOR NOW)
+		query_personal_data = '''select * from people_info where id = ?; '''
+		cursor.execute(query_personal_data, (id,))
+		person_info = cursor.fetchall()
+
 		# take all persons data and add new event in events log table ( event type : occupy parking cell)
-		# update parking status table ( take the nearist available parking) and update total available table
-		# increase available counter in tot_availabel table
-		# ( this is done by select old value fetch it +1 then update the table)
-		# return NOThing important END
+		event_type = cmd
+		person_id = id
+		cursor.execute("""
+	insert into event_log (person_id , event_type ) values
+	(? , ?);
+	""", (person_id , event_type))
+		conn.commit()
 
-	elif cmd is 1 : ...  # get car from park command
-		# query the parking status table  by id
-		# if car isnt there return no matching id found err
-		# els:
-		# get all personal data from personal data table by id
-		# register new event in event log table with data you got (event type = free parking cell )
-		# update parking status table 
-		#decrease available counter in tot_availabel table 
-		# ( this is done by select old value fetch it -1 then update the table)
-		# return parking cell number
+		# update parking status table ( take the nearist available parking) and update total available table
+		cursor.execute(
+				'''SELECT cell_id FROM parking_status WHERE status = 0 order by cell_id asc;''')
+		nearest_empty_cell_id = cursor.fetchone() #returns tuple with only 1 element
+
+		# you got the id now change status to 1 (occupied)
+		cursor.execute(
+				""" update parking_status set status = 1 where cell_id = ? ;""", (nearest_empty_cell_id[0],)) # or just pass nearest_empty_cell_id
+		conn.commit()
+
+		# another way to  get the nearist empty cell id using select and first_value()
+		# cursor.execute(""" select * , first_value(taken_by)
+		# over (order by taken_by)
+		# as nearst_empty_cel
+		# from parking_status
+		# where status = 0 ;
+		# """) # no need also check if empty before
+
+		# decrease available counter in tot_available table
+		cursor.execute(
+				""" update total_available set available_counter = available_counter - 1 where dummy = 1 ;""")
+		conn.commit()
+
+		conn.close()
+		# return NOThing important END
+		print ("debug message : SUCCESS Database has been updated ! ")
+		return 1  # success
+###########################################################################
+def get_car_db(conn , cmd , id) : # get car from parking command ( free a cell in db )
+	cursor = conn.cursor()
+# query the parking status table  by id
+	cursor.execute(
+		"""select cell_id , status from parking_status where taken_by = ?; """, (id,))
+	cell_data = cursor.fetchall()
+	status = cell_data[1]
+	
+	# if car isnt there return no matching id found err
+	if status != 1:
+		conn.close()
+		print("debug message : FAIL car not found!")
+		return 0  # fail car not found err
+	else:
+	# get all personal data from personal data table by id ( NO NEED FOR NOW)
+		cursor.execute(""" select * from people_info where id = ?""", (id,))
+		person_data = cursor.fetchall()  # id, name, car_model, license_exp_date
+
+	# register new event in event log table with data you got (event type = free parking cell )
+		cursor.execute(""" insert into event_log (person_id , event_type)
+		values(? , ?);
+		""", (id , cmd))
+		conn.commit()
+
+	# update parking status table
+		cursor.execute("""" update parking_status set status  = 0
+				where taken_by = ? ;""", (id,))
+		conn.commit()
 		
-if __name__ == "__main__" :
-	build_db()
+	# increase available counter in tot_availabel table
+		cursor.execute(""" update total_available set available_counter = available_counter + 1 
+				where dummy = 1 ; """)
+		conn.commit()
+
+
+		conn.close()
+	# return parking cell number
+		print ( "debug message : SUCCESS Database has been updated!")
+		return cell_data[0]
+###########################################################################
+def db_cmd(cmd : int, id : str):
+	conn = connect_db()
+	if cmd == 0:  # park car command
+		return park_car_db(conn , cmd , id)
+	elif cmd == 1: # get car from park command ( free a cell )
+		return get_car_db(conn , cmd , id)
+###########################################################################
+if __name__ == "__main__":
+	# test your code
+	# build_db()
+	db_cmd(0 , str(9012387654321) ) # park new car with driver id = 9012387654321
