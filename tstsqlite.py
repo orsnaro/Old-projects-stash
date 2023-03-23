@@ -56,21 +56,6 @@ def create_db(conn):
 	);
 	""")
 
-    # table 4
-    cursor.execute("""
-	CREATE TABLE IF NOT EXISTS total_available(
-	dummy integer default 1,
-	available_counter integer
-	);
-	""")
-
-    # initialize the coutner to max value available
-    # first element actually no need 2nd is the max number of cells
-    mx_sz = (1, 6)
-
-    cursor.execute("""insert into total_available (dummy , available_counter)
-							values (? , ?); """, mx_sz)
-    conn.commit()  # some statements need commit / but we enabled auto commit
 
     # test sample of non real people info
     cursor.execute("""
@@ -117,16 +102,15 @@ def build_db():  # only once to create database
 def park_car_db(conn , cmd ,id) : # park car command to update database
 	cursor = conn.cursor()
 # check if parking is full return parking full err (from available table)
-	car_counter_query = (
-		''' select available_counter from total_available where available_counter > 0 ;''')
+	car_counter_query = ( """ select sum(status) from parking_status where status = 1; """ )
 	cursor.execute(car_counter_query)
-	# if cntr len() == 0 then no availble cells parking is full
-	temp_cntr = cursor.fetchall()
+	mx_sz = 6
+	available_cells = mx_sz - (cursor.fetchall())[0] 
 
-	if len(temp_cntr) == 0:
+	if available_cells == 0:
 		conn.close()
 		print (" debug message : Fail parking is full! ")
-		return 0  # fail park is full
+		return 0  # 0 == fail park is full
 	else:
 		# take id  and get all data from people_info table ( NO NEED FOR NOW)
 		query_personal_data = '''select * from people_info where id = ?; '''
@@ -152,18 +136,13 @@ def park_car_db(conn , cmd ,id) : # park car command to update database
 				""" update parking_status set status = 1 where cell_id = ? ;""", (nearest_empty_cell_id[0],)) # or just pass nearest_empty_cell_id
 		conn.commit()
 
-		# another way to  get the nearist empty cell id using select and first_value()
+		# (NO NEED) another way to  get the nearist empty cell id using select and first_value()
 		# cursor.execute(""" select * , first_value(taken_by)
 		# over (order by taken_by)
 		# as nearst_empty_cel
 		# from parking_status
 		# where status = 0 ;
 		# """) # no need also check if empty before
-
-		# decrease available counter in tot_available table
-		cursor.execute(
-				""" update total_available set available_counter = available_counter - 1 where dummy = 1 ;""")
-		conn.commit()
 
 		conn.close()
 		# return NOThing important END
@@ -178,7 +157,7 @@ def get_car_db(conn , cmd , id) : # get car from parking command ( free a cell i
 	cell_data = cursor.fetchall()
 	status = cell_data[1]
 	
-	# if car isnt there return no matching id found err
+	# if car isn't there return no matching id found err
 	if status != 1:
 		conn.close()
 		print("debug message : FAIL car not found!")
@@ -199,16 +178,12 @@ def get_car_db(conn , cmd , id) : # get car from parking command ( free a cell i
 				where taken_by = ? ;""", (id,))
 		conn.commit()
 		
-	# increase available counter in tot_availabel table
-		cursor.execute(""" update total_available set available_counter = available_counter + 1 
-				where dummy = 1 ; """)
-		conn.commit()
-
-
 		conn.close()
 	# return parking cell number
 		print ( "debug message : SUCCESS Database has been updated!")
 		return cell_data[0]
+###########################################################################
+def calc_cost() : ...
 ###########################################################################
 def db_cmd(cmd : int, id : str):
 	conn = connect_db()
@@ -219,5 +194,5 @@ def db_cmd(cmd : int, id : str):
 ###########################################################################
 if __name__ == "__main__":
 	# test your code
-	# build_db()
-	db_cmd(0 , str(9012387654321) ) # park new car with driver id = 9012387654321
+	# build_db() #build the sqlite3 db for fist time
+	db_cmd(0 , str(9012387654321) ) # Example: park new car with driver id = 9012387654321

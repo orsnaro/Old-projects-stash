@@ -20,6 +20,7 @@ import pytesseract as tsr
 
 
 
+print ( mx - tst )
 
 
 if __name__ == "__main__" : ...
