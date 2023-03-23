@@ -105,11 +105,12 @@ def build_db():  # only once to create database
 def park_car_db(conn, cmd, id):  # park car command to UPDATE database
     cursor = conn.cursor()
 # check if parking is full return parking full err (from available table)
+# we could use select sum() instead also )
     car_counter_query = (
-        """ SELECT SUM(status) FROM parking_status WHERE  status < 2; """)
+        """ SELECT COUNT(status) FROM parking_status WHERE  status = 0; """)
+    
     cursor.execute(car_counter_query)
-    mx_sz = 6
-    available_cells = mx_sz - (cursor.fetchall())[0][0]
+    available_cells =cursor.execute(car_counter_query)
 
     if available_cells == 0:
         conn.close()
