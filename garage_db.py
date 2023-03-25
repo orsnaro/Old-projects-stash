@@ -1,3 +1,13 @@
+"""
+                          Programmer : Asmaa & Omar                                    
+                          Version : v---                                          
+                          Date :  - / 3 / 2023                                        
+                          Code Type :  database.py => smart_parking_project                     
+                          Title : Smart Parking System              
+                          Interpreter : cPython  v3.11.0 [Compiler : MSC v.1933 AMD64]  
+"""                      
+
+
 import sqlite3
 
 # TODO : error handling (expired license .. etc)
@@ -7,6 +17,7 @@ import sqlite3
 # doesnt make big problems or memory leaks
 ###########################################################################
 def connect_db():
+	''' connect sqlite3 to python file and ensure ref.integrity enabled '''
     def_db = r"./garage_sqlite3_db.db"
     connect_obj = None
 
@@ -22,6 +33,7 @@ def connect_db():
 
 
 def create_db(conn):
+	''' don't call This function directly! (only via build_bd() -> whenever you establish new Db only once to build your db structure '''
     cursor = conn.cursor()
 
     # table 1
@@ -95,23 +107,34 @@ def create_db(conn):
 
 
 def build_db():  # only once to create database
+	''' call This function whenever you establish new Db only once to build your db structure '''
+
     conn = connect_db()
     # inside create_db() will make the 4 main tables
     # -> people_info , parking_status , event_log , total_available
     create_db(conn)
 ###########################################################################
 
+def calc_cost(person_id : str): 
+	''' get diffrence between parking time and free cell time then mul with cost per hour'''
+	
 
-def park_car_db(conn, cmd, id):  # park car command to UPDATE database
+	return 	(tot_cost : int , tot_time : int) # change to list [] if you want to easy overwrite
+
+
+###########################################################################
+
+def park_car_db(conn, cmd, id):  
+	'''park car command to UPDATE database '''
+	
     cursor = conn.cursor()
 # check if parking is full return parking full err (from available table)
 # we could use select sum() instead also )
     car_counter_query = (
         """ SELECT COUNT(status) FROM parking_status WHERE  status = 0; """)
-    
     cursor.execute(car_counter_query)
-    available_cells =cursor.execute(car_counter_query)
-
+    available_cells = (cursor.fetchall())[0][0]
+    
     if available_cells == 0:
         conn.close()
         print(" debug message : Fail parking is full!\n")
@@ -156,7 +179,9 @@ def park_car_db(conn, cmd, id):  # park car command to UPDATE database
 ###########################################################################
 
 
-def get_car_db(conn, cmd, id):  # get car FROM parking command ( free a cell in db )
+def get_car_db(conn, cmd, id):  
+	'''get car FROM parking command ( free a cell in db )'''
+
     cursor = conn.cursor()
 # query the parking status table  by id
     cursor.execute(
@@ -185,15 +210,14 @@ def get_car_db(conn, cmd, id):  # get car FROM parking command ( free a cell in 
         conn.commit()
 
         conn.close()
-    # return parking cell number
+    # return parking cell number + park cost info 
         print("debug message : SUCCESS Database has been UPDATED!\n")
-        return cell_data[0]
-###########################################################################
-def calc_cost(): ...
+        return ( cell_data[0] , calc_cost(person_id) ) # change to list [] if you want to easy overwrite
 ###########################################################################
 
 
 def db_cmd(cmd: int, id: str):
+	''' this is the main database fucntion and what other parts of code will see and use 99% of time '''
     conn = connect_db()
     if cmd == 0:  # park car command
         return park_car_db(conn, cmd, id)
@@ -208,7 +232,7 @@ if __name__ == "__main__":
     build_db() # build the sqlite3 db for fist time
     
     # Example: park new car with driver id = 9012387654321
-    db_cmd(0, str(9012387654321))
+   #  db_cmd(0, str(9012387654321))
     
     # Example: free a car with driver id = 9012387654321
-    print("CELL_ID TO FREE IS : " , db_cmd(1, str(9012387654321)))
+   #  print("CELL_ID TO FREE IS : " , db_cmd(1, str(9012387654321)))
