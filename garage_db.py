@@ -156,15 +156,9 @@ def calc_cost(person_id : str , conn ):
    #any time less than hour will pay one hour park at least
    #non integer values will be rounded up  ex : 2.2 hours -> 3 hours total to pay
    
-   # #TESTING BLOCK START
-   print ( time_diff_in_hours , " " , tot_time_hour , "  " )
-   print ( f" {last_id_park_event_time} \n {last_id_free_event_time} \n") 
-   # #TESTING BLOCK END
    
-   # #update event_log  with the cost  ( park event type has NULL cost)
+   #update event_log  with the cost  ( park event type has NULL cost)
    event_to_update = last_free_id_info[1]
-   #TEST
-   print ( event_to_update)
    cursor.execute(
    """
    UPDATE event_log SET cost = ? WHERE event_id = ? ;
@@ -294,14 +288,14 @@ def db_cmd(cmd: int, id: str):
 
 ###########################################################################
 if __name__ == "__main__":
-    # test your code
+    # TEST YOUR CODE 
     
-   #  build_db() # build the sqlite3 db for fist time
+    build_db() # build the sqlite3 db for fist time
     
     # Example: park new car with driver id = 9012387654321
     db_cmd(0, str(9012387654321))
     
-    time.sleep(30) # wait 30 sec so  we can rount it up to 1 house == 3 pounds cost
+    time.sleep(30) # wait 30 sec so  we can round it up to 1 houre == 3 pounds cost
     
     # Example: free a car with driver id = 9012387654321
     cell_id_cost_time = db_cmd(1, str(9012387654321))
