@@ -290,7 +290,7 @@ def db_cmd(cmd: int, id: str):
 if __name__ == "__main__":
     # TEST YOUR CODE 
     
-    build_db() # build the sqlite3 db for fist time
+    build_db() # build the sqlite3 db for fist time ( IF BUILT BEFORE SQLITE3 ERROR WILL BE raised )
     
     # Example: park new car with driver id = 9012387654321
    #  db_cmd(0, str(9012387654321))
