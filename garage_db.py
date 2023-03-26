@@ -293,12 +293,12 @@ if __name__ == "__main__":
     build_db() # build the sqlite3 db for fist time
     
     # Example: park new car with driver id = 9012387654321
-    db_cmd(0, str(9012387654321))
+   #  db_cmd(0, str(9012387654321))
     
-    time.sleep(30) # wait 30 sec so  we can round it up to 1 houre == 3 pounds cost
+   #  time.sleep(30) # wait 30 sec so  we can round it up to 1 houre == 3 pounds cost
     
-    # Example: free a car with driver id = 9012387654321
-    cell_id_cost_time = db_cmd(1, str(9012387654321))
-    print("CELL_ID TO FREE IS : " , cell_id_cost_time[0] )
-    print("Total prking cost : " , cell_id_cost_time[1])
-    print("Total time on parking : " , cell_id_cost_time[2])
+   #  # Example: free a car with driver id = 9012387654321
+   #  cell_id_cost_time = db_cmd(1, str(9012387654321))
+   #  print("CELL_ID TO FREE IS : " , cell_id_cost_time[0] )
+   #  print("Total prking cost : " , cell_id_cost_time[1])
+   #  print("Total time on parking : " , cell_id_cost_time[2])
