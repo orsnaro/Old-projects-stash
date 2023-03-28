@@ -73,30 +73,44 @@ def create_db(conn):
       );
       """
       )
-
-    # test sample of non real people info ( 1st two records is expired and about to expire license for later use)
-    cursor.execute(
+  
+    # 30 test sample of non real people info ( 1st two records is expired and about to expire license for later use)
+    cursor.execute (
       """
-      INSERT INTO people_info (id, name, car_model, license_exp_date)
-      VALUES
-      (1234567890123, 'John Doe', 'Toyota Camry 2015', '2022-05-31'),
-      (7890165432109,'Laila Saleh','Chevrolet Malibu 2014','2023-05-31'),
-      (2345678901234, 'Jane Smith', 'Honda Accord 2016', '2024-01-15'),
-      (3456789012345, 'Ahmed Ali', 'Nissan Altima 2017', '2023-11-30'),
-      (4567890123456, 'Fatima Hassan', 'Ford Mustang 2018', '2024-03-20'),
-      (5678901234567, 'Mohammed Khalid', 'Chevrolet Impala 2019', '2023-09-10'),
-      (6789012345678, 'Sara Ahmed', 'Hyundai Sonata 2020', '2025-02-28'),
-      (7890123456789, 'Abdullah Saleh', 'Kia Optima 2016', '2023-08-05'),
-      (8901234567890, 'Aisha Mohammed', 'Mazda CX5 2017', '2023-06-15'),
-      (2345610987654,'Youssef Salah','Jeep Cherokee 2019','2024-07-01'),
-      (3456721098765,'Nada Khalid','Ford Escape 2017','2023-12-31'),
-      (4567832109876,'Omar Ali','Honda Civic 2018','2023-08-15'),
-      (5678943210987,'Rania Ahmed','Toyota RAV4 2016','2024-04-30'),
-      (6789054321098,'Khaled Hassan','Nissan Maxima 2015','2023-11-15'),
-      (8901276543210,'Mona Mohammed','Hyundai Elantra 2013','2023-12-15'),
-      (9012387654321,'Hassan Ali','Kia Sportage2009','2024-12-15');
+   INSERT INTO people_info (id, name, car_model , license_exp_date)
+   VALUES
+  ('51483525410590', 'Ahmed Ali', 'Toyota Camry 2010', '2022-12-31'),
+  ('94327645058732', 'Fatima Ahmed', 'Nissan Altima 2014', '2024-04-31'),
+  ('54302518496307', 'Abdullah Hassan', 'Honda Accord 2016', '2024-06-30'),
+  ('69301847590631', 'Sara Khalid', 'BMW 750i 2015', '2025-05-31'),
+  ('57392618347590', 'Hassan Mohammad', 'Mercedes S-Class 2017', '2025-11-30'),
+  ('43768403502931', 'Nada Abdullah', 'Audi A6 2018', '2026-08-31'),
+  ('11111111111111', 'Omar Rashad', 'Rolls-Royce dawn 2022', '2027-05-13'),
+  ('82154763902174', 'Aisha Khalil', 'Porsche 911 2020', '2028-04-30'),
+  ('38574820856990', 'Khaled Hassan', 'Toyota RAV4 2021', '2029-09-30'),
+  ('12092547103826', 'Noor Ahmed', 'Honda Civic 2022', '2030-03-31'),
+  ('48930257301924', 'Yara Khalid', 'Nissan Maxima 2013', '2022-07-31'),
+  ('90584058237584', 'Ali Hassan', 'Toyota Corolla 2017', '2023-05-31'),
+  ('76587430965402', 'Mariam Ahmed', 'BMW X5 2016', '2024-02-29'),
+  ('59482143698237', 'Ahmed Khalid', 'Mercedes E-Class 2018', '2025-07-31'),
+  ('10756736490582', 'Hassan Ali', 'Audi Q5 2019', '2026-05-31'),
+  ('84263049387356', 'Sara Abdullah', 'Tesla Model Y 2020', '2027-11-30'),
+  ('17593745068247', 'Nora Saad', 'Porsche Panamera 2015', '2028-10-31'),
+  ('23570968430879', 'Abdul Rahman Salam', 'Honda CR-V 2014', '2029-12-31'),
+  ('20968472036847', 'Lina Khalid', 'Toyota Camry 2011', '2030-09-30'),
+  ('82095736204839', 'Yusuf Ali', 'Nissan Altima 2012', '2031-07-31'),
+  ('94375029830610', 'Hassan Abdullah', 'Tesla Model Y 2020', '2027-11-30'),
+  ('29578406135029', 'Sara Saad', 'Porsche Panamera 2015', '2028-10-31'),
+  ('50983740125674', 'Abdul Rahman Ali', 'Honda CR-V 2014', '2029-12-31'),
+  ('98406270356408', 'Somaia Khalid', 'Toyota Camry 2011', '2030-09-30'),
+  ('62970315483745', 'Fatima Ali', 'Nissan Altima 2012', '2031-07-31'),
+  ('41098726395820', 'Yusuf Khalid', 'Honda Accord 2016', '2022-08-31'),
+  ('95673402567849', 'Saif Hassan', 'Honda Accord 2016', '2022-08-31'),
+  ('94368209865439', 'Saad Khalid', 'BMW 740i 2018', '2023-06-30'),
+  ('84759370289347', 'Ali Abdullah', 'Toyota Corolla 2017', '2024-05-31'),
+  ('58943270598347', 'Nada Khalid', 'Nissan Altima 2015', '2025-10-31');
       """
-      )
+    )
     conn.commit()  # some statements need commit / but we enabled auto commit
 
     # INSERT initial data for parking status table
@@ -230,7 +244,7 @@ def park_car_db(conn, cmd, id):
 
 
 def get_car_db(conn, cmd, id):  
-    """_summary_
+    """
     get car FROM parking command ( free a cell in db )
 
     Args:
@@ -292,13 +306,13 @@ if __name__ == "__main__":
     
     build_db() # build the sqlite3 db for fist time ( IF BUILT BEFORE SQLITE3 ERROR WILL BE raised )
     
-    # Example: park new car with driver id = 9012387654321
-   #  db_cmd(0, str(9012387654321))
+   #  #Example: park new car with driver id = 54302518496307
+   #  db_cmd(0, str(54302518496307))
     
    #  time.sleep(30) # wait 30 sec so  we can round it up to 1 houre == 3 pounds cost
     
-   #  # Example: free a car with driver id = 9012387654321
-   #  cell_id_cost_time = db_cmd(1, str(9012387654321))
+   #  #Example: free a car with driver id = 54302518496307
+   #  cell_id_cost_time = db_cmd(1, str(54302518496307))
    #  print("CELL_ID TO FREE IS : " , cell_id_cost_time[0] )
    #  print("Total prking cost : " , cell_id_cost_time[1])
    #  print("Total time on parking : " , cell_id_cost_time[2])
