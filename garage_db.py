@@ -111,7 +111,7 @@ def create_db(conn):
   ('58943270598347', 'Nada Khalid', 'Nissan Altima 2015', '2025-10-31');
 		"""
 	 )
-	conn.commit()  # some statements need commit / but we enabled auto commit
+	conn.commit()  #some statements need commit / but we enabled auto commit
 
 	# INSERT initial data for parking status table
 	cursor.execute(
