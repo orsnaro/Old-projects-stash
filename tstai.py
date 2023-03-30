@@ -21,7 +21,7 @@ import pytesseract as tsr
 
 img = cv2.imread(r"./test_id_yousef_salah.jpg", 1)
 img = cv2.resize(img, (600, 400))
-img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1] # returns  (thresh type , threshed_image)
 imgstr = tsr.image_to_string(img, lang='eng')
 # for loop to check isnumeric() and only save numeric char then join them in one string
 imgstr = imgstr.split()
