@@ -9,7 +9,8 @@
 import sqlite3
 import datetime , time , math
 
-
+#TODO : Add gmail extension  via : smtp or  yagmail python libraries ( ask chat gpt and look your old gmail api to know more)
+#TODO : use with key word to automatically handle close() and exit sqlite connection (better coding habit )
 # TODO : enhance error handling (expired license .. etc)
 ###########################################################################
 def connect_db():
