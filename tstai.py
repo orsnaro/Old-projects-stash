@@ -12,7 +12,8 @@ import pytesseract as tsr
 
 
 
-def simple_card_reader ( id_dimension : tuple = (800 , 400) ) -> str :
+def read_simple_card( id_dimension : tuple = (600 , 300) ) -> str :
+ #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 	"""
 	this function does following (until now):
 	1. start video capture
@@ -25,51 +26,59 @@ def simple_card_reader ( id_dimension : tuple = (800 , 400) ) -> str :
  
 	Default id shape is : ( 800 x 400) (x,y)
 	"""
+ #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+ 
+ 
 	#make capture object and pass camera index
 	vid = cv2.VideoCapture(0)
-
-	#rect obj specs
-	color = (0,255,0) #green color in BGR format
-	thickness = 2 
-	top_left_coordinate : tuple #(x,y) top left most corner is origin (0,0)
-	bot_right_coordinate : tuple
-
-
-	while (1) : #capture camera at 100fps
+	#make rectangle specs . coordinates are in ( x,y)
+	rec_spec = {'color' : (0,255,0) , 'thickness' : 2 , 'top_left_coordinate' : tuple , 'bot_right_coordinate' : tuple  }
+	
+	i = 0 #TESTING
+	while (True) : #start capture camera at 100fps
 		
 		is_error , frame =  vid.read()
-		cv2.imwrite("test.jpg" , frame)
+  
+		i += 1 #TESTING
+		cv2.imwrite(f"./id_snapshots/last_id_snapshot{i}.jpg" , frame) #TESTING
+
+		#get points to position helper rectangle in center
+			#shape() returns height_frame , width_frame , channels
+		y_center , x_center , _ = [ int(x) // 2 for x in frame.shape() ]
+			#top left 
+		x1 , y1 = x_center - id_dimension[0] // 2 , y_center - id_dimension[1] // 2
+			#bot_right
+		x2 , y2 = x_center + id_dimension[0] // 2 , y_center + id_dimension[1] // 2	
+			#make rec_in_center
+		rec_spec["top_left_coordinate" , "bot_right_coordinate"] = (x1 , y1) , (x2 , y2)
 	
+		#make rectangle object to help position ID card when scanning
+		img = frame # frame copy with out the rectangle is what we will process 
+		cv2.rectangle(*rec_spec.values()) #pass all what in rec_spect dict to the function
 	
-		#make rectangle object ot position ID card
-		cv2.rectangle(frame , )
-	
-		#center the rectangle in video frame
 		
-		#show live video ( user visual aid)
+		#show live video  100fps ( user visual aid )
 		cv2.imshow("Camera", frame) 
 
-
-		if cv2.waitKey(10) & 0xff == ord('q'):
+ 		# '& 0xFF' takes only least significant byte -> (pressed key ascii code)
+		if cv2.waitKey(10) & 0xff == ord('q'): # ord() converts char to its int ascii code
 			break
 
 	vid.release()
 	cv2.destroyAllWindows()
 
-	img = cv2.imread(r"./test_id_yousef_salah.jpg", cv2.IMREAD_GRAYSCALE)
-	# img = cv2.resize(img, (600, 400))
-	img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1] # returns  (thresh type , threshed_image)
-	imgstr = tsr.image_to_string(img, lang='eng')
-	# for loop to check isnumeric() and only save numeric char then join them in one string
-	imgstr = imgstr.split()
-	print(imgstr[1])
-
-
+	final_value = None
+	# img = cv2.imread(r"./test_id_yousef_salah.jpg", cv2.IMREAD_GRAYSCALE)
+	# # img = cv2.resize(img, (600, 400))
+	# img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1] # returns  (thresh type , threshed_image)
+	# imgstr = tsr.image_to_string(img, lang='eng')
+	# # for loop to check isnumeric() and only save numeric char then join them in one string
+	# imgstr = imgstr.split()
+	# print(imgstr[1])
+	id = final_value
 
 	return id 
 
-
-
-
-if __name__ == "__main__": ...
-	 # your test code
+if __name__ == "__main__": 
+	# your test code
+	read_simple_card()
