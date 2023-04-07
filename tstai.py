@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 import pytesseract as tsr
@@ -12,7 +11,7 @@ import pytesseract as tsr
 
 
 
-def read_simple_card( id_dimension : tuple = (600 , 300) ) -> str :
+def read_simple_card( id_dimension : tuple = (200 , 100) ) -> str :
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 	"""
 	this function does following (until now):
@@ -40,21 +39,23 @@ def read_simple_card( id_dimension : tuple = (600 , 300) ) -> str :
 		is_error , frame =  vid.read()
   
 		i += 1 #TESTING
-		cv2.imwrite(f"./id_snapshots/last_id_snapshot{i}.jpg" , frame) #TESTING
+		cv2.imwrite(f"C:/Users/OmarPc/repo_Old_projects_stash/id_snapshots/last_id_snapshot{i}.jpg" , frame) #TESTING
 
 		#get points to position helper rectangle in center
 			#shape() returns height_frame , width_frame , channels
-		y_center , x_center , _ = [ int(x) // 2 for x in frame.shape() ]
+		y_center , x_center , _ = [ int(x) // 2 for x in frame.shape ]
 			#top left 
 		x1 , y1 = x_center - id_dimension[0] // 2 , y_center - id_dimension[1] // 2
 			#bot_right
 		x2 , y2 = x_center + id_dimension[0] // 2 , y_center + id_dimension[1] // 2	
 			#make rec_in_center
-		rec_spec["top_left_coordinate" , "bot_right_coordinate"] = (x1 , y1) , (x2 , y2)
-	
+		rec_spec['top_left_coordinate' , 'bot_right_coordinate'] = (x1 , y1) , (x2 , y2)
+		#TESING
+		print ( rec_spec['top_left_coordinate'])
+
 		#make rectangle object to help position ID card when scanning
 		img = frame # frame copy with out the rectangle is what we will process 
-		cv2.rectangle(*rec_spec.values()) #pass all what in rec_spect dict to the function
+		# cv2.rectangle(frame , rec_spec['top_left_coordinate'] , rec_spec['bot_right_coordinate'] , rec_spec['color'] , rec_spec['thickness']) #pass all what in rec_spect dict to the function
 	
 		
 		#show live video  100fps ( user visual aid )
@@ -81,4 +82,6 @@ def read_simple_card( id_dimension : tuple = (600 , 300) ) -> str :
 
 if __name__ == "__main__": 
 	# your test code
+	# tst = {"omar" : (3,4,4)}
+	# print ( tst['omar'])
 	read_simple_card()
