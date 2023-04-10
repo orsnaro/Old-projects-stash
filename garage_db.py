@@ -9,15 +9,15 @@
 import sqlite3
 import datetime , time , math
 
+#TODO : TEST the new db_check_ai_id() function
 #TODO : Add gmail extension  via : smtp or  yagmail or pygmail python libraries ( ask chat gpt and look your old gmail api to know more)
-#TODO : use with key word to automatically handle close() and exit sqlite connection (better coding habit )
-# TODO : Enhance error handling  and bug testing
+#TODO : Enhance error handling  and bug testing
 ###########################################################################
 def connect_db():
 	"""
 	connect sqlite3 to python file and ensure ref.integrity enabled .
-best to call build_db() instead calling this function directly
-"""
+	best to call build_db() instead calling this function directly
+	"""
 	def_db = r"./garage_sqlite3_db.db"
 	connect_obj = None
 
@@ -300,6 +300,29 @@ def db_cmd(cmd: int, id: str):
 	elif cmd == 1:  # get car FROM park command ( free a cell )
 		return get_car_db(conn, cmd, id)
 
+
+###########################################################################
+def db_check_ai_id (id_to_chk : str)  -> bool : #NOTE : still not tested 
+
+	is_found = True
+
+	with connect_db() as db :
+		cursor = db.cursor()
+		cursor.execute(""" 	SELECT id FROM people_info 
+									WHERE id = ?;
+							""" , (id_to_chk ,))
+  
+		temp = cursor.fetchall()
+  
+		if len(temp) == 0 :
+			is_found == False
+	
+	return is_found
+	
+ 
+
+    
+		
 
 ###########################################################################
 if __name__ == "__main__":

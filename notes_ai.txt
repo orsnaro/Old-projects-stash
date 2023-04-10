@@ -5,6 +5,7 @@ open video camera
 capture frame from camera
 threshold the image ( binary or smart threshold)
 gaussian blur the image
+dialtae the image 
 ocr the result image
 return text ( id )
 ##################################################
