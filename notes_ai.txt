@@ -1,4 +1,23 @@
 
+for gpu accl :
+
+For CUDA:
+
+pip install tensorflow-gpu  # installs TensorFlow with GPU support
+pip install torch  # installs PyTorch with GPU support
+pip install mxnet-cu{YOUR_CUDA_VERSION}  # installs MXNet with GPU support
+pip install cupy-cuda{YOUR_CUDA_VERSION}  # installs CuPy with CUDA support
+Replace {YOUR_CUDA_VERSION} with the version of CUDA installed on your system, for example, 10.1 or 11.0.
+
+For OpenCL:
+
+pip install pyopencl  # installs PyOpenCL for OpenCL support
+
+
+
+
+
+
 """ help text for later  ( better read it at telegram 'test chat')
 TODO : steps :
 open video camera

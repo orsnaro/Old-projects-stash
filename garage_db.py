@@ -2,7 +2,7 @@
 								  Coder : ENG. Asmaa & Omar
 								  Version : v---
 								  Date :  - / 3 / 2023
-								  Code Type :  database.py => smart_parking_project
+								  Code Type : python | SQLite database=> smart_parking_project
 								  Title : Smart Parking System
 								  Interpreter : cPython  v3.11.0 [Compiler : MSC v.1933 AMD64]
 """
@@ -313,7 +313,7 @@ def db_check_ai_id (id_to_chk : str)  -> bool : #NOTE : still not tested
 							""" , (id_to_chk ,))
   
 		temp = cursor.fetchall()
-  
+
 		if len(temp) == 0 :
 			is_found == False
 	
@@ -321,14 +321,14 @@ def db_check_ai_id (id_to_chk : str)  -> bool : #NOTE : still not tested
 	
  
 
-    
-		
+
+
 
 ###########################################################################
 if __name__ == "__main__":
-	 # TEST YOUR CODE
+	# TEST YOUR CODE
 
-	 build_db() # build the sqlite3 db for fist time ( IF BUILT BEFORE SQLITE3 ERROR WILL BE raised )
+	build_db() # build the sqlite3 db for fist time ( IF BUILT BEFORE SQLITE3 ERROR WILL BE raised )
 
 	#  #Example: park new car with driver id = 54302518496307
 	#  db_cmd(0, str(54302518496307))
