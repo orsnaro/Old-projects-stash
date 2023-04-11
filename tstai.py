@@ -69,6 +69,9 @@ def check_gpu_accl () -> tuple :
 				if cuda is enabled use cv2.cudaGpuMat instead of cv2.UMat 
 		and cv2.cuda.foo() instead of cv2.foo() in some opencv-python functions
   
+	return :
+ 	tuple (is_enabled? , gpu_type 2== cuda 1==opencl)
+  
 	"""
 
 	#check if cuda / opencl is enabled  
@@ -104,43 +107,42 @@ def video_settings_setup (cam_indx : int  = 0, fps : int = 30 , vid_time_sec : i
 	gpu_accel == 1  Cuda GPU acceleration found
  
 	gpu_accel == 2  OpenCl GPU acceleration found
+ 
+	returns :
+ 
+	vid , fps , frametime , vid_time_sec
 
 	"""
+	#set the path to the tesseract dir ( not needed if you added it to win. env. variables)
+	tsr.pytesseract.tesseract_cmd =  r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+ 
 	if gpu_accel == 2 : #use Cuda video object
 		#you can change video backends used by adding argument 
   		# cv2.CAP_DSHOW  (Dshow is the default in my pc)
 		vid = cv2.cuda.VideoCapture(0 , cv2.CAP_DSHOW)
+	else : #opencl and else uses this video obj
+		vid = cv2.VideoCapture(0 , cv2.CAP_DSHOW)
+    
 
-def read_simple_card_cuda (id_dimension : tuple = (405 , 271)) -> str : ...
-
-def read_simple_card_opencl( id_dimension : tuple = (405 , 271) ) -> str : #NOTE: also use it when no GPU acceleration available
- 
-	#set the path to the tesseract dir ( not needed if you added it to win. env. variables)
-	tsr.pytesseract.tesseract_cmd =  r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-	
- 	# default id == 0 , lisence id  == 1  , car plate id == 2
-	id_type_indx = 0 
-   #needed later
-	final_value , img  = [ None for i in range (2)] #needed later
- 
-	
-	fps = 30
-	timer = mx_time # 1000 * 10ms = 10s
- 
-			
- 	#you can change video backends used by adding argument cv2.CAP_DSHOW 
-  	# (changes video backend to direct show library)
-  
-  	#change default video object dimension . 
-   # default  on omarpc obs vritual cam plugin -> (height_Y : 480 , width_X : 640)
+	#set custom res
 	vid.set(cv2.CAP_PROP_FRAME_WIDTH , 1366) 
 	vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 768)
+   # default  on omarpc obs vritual cam plugin -> (height_Y : 480 , width_X : 640)
+	
+	#frametime is needed to put as cv2.waitkey() argument 
+	frametime = 1000 // fps 
+
+	return vid , fps , frametime , vid_time_sec
  
 	
 	
+
+
+def read_simple_card_cuda ( vid : cv2.cuda.VideoCapture , id_dimension : tuple = (405 , 271) , timer : int = 100 , is_valid : bool = False) -> str : ...
+
+def read_simple_card_opencl( vid : cv2.VideoCapture , id_dimension : tuple = (405 , 271) , timer : int = 100 , is_valid : bool = False ) -> str : #NOTE: also use it when no GPU acceleration available
+ 
 	valid_cnt = 0
-	all_success : bool = False
-	is_valid = False 
 	while timer > 0: #start capture camera at fps for 10seconds
    
 		is_error , frame =  vid.read()
@@ -224,6 +226,7 @@ def read_simple_card_opencl( id_dimension : tuple = (405 , 271) ) -> str : #NOTE
 		if valid_cnt >= fps :  
 			all_success = True
 			final_value = extracted_id_val
+			return final_value
 			break #fps * (1000/fps) ms = 1s always
     
 	
@@ -231,8 +234,64 @@ def read_simple_card_opencl( id_dimension : tuple = (405 , 271) ) -> str : #NOTE
 		frametime = 1000 // fps
  		# '& 0xFF' takes only least significant byte -> (pressed key ascii code)
 		if cv2.waitKey( frametime ) & 0xff == ord('q'): 
-			break 
+			return extracted_id_val #this must be used in debug only
+
+	return False #fail
+		
+
   
+		
+def ocr_main (id_dimension : tuple = (405 , 271) , id_type_indx : int = 0 ) -> str : 
+ #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+	"""
+	this function does following (until now):
+   0. enables gpu acceleration if available (cuda or opencl)
+	1. starts video capture
+	2. provide rectangle at video center to help user scan id + timer 
+	4.proccess taken frame for better ocr ( threshold , smooth , dialate/erode , deskew(soon)) 
+	5. ocr 
+	6. parse the text to take only id for now ( 14 numeric digits )
+	3. save either by clicking key 'q' or when timer stops
+	7. return the ocr(ed) ID carn number
+ 
+	Default id shape is : ( 405 x 271 ) (x,y) (later this will ocr car plates and license)
+	actual size of our test id card image is 400x266
+		
+	id_type_inx -> default id == 0 , lisence id  == 1  , car plate id == 2
+  
+	returns id string if succeeded 
+	returns False bool if Failed
+	"""
+ #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+	#simple ids templates
+	# this is good for future if wanted to extend code to scan car plates ofقdiffز id types
+	default_id_specs = {'id_type' : (0 , "default")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "gender" , "birthDate" , "id_num" ] }
+	lisence_specs    = {'id_type' : (1 , "lisence")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "vehicle_type" ,  "id_num" ] }
+	car_plate_specs  = {'id_type' : (2 , "carPlate") , 'id_char' : "Alphanumeric" , 'id_length' : 6  , 'id_objects_ordered' : ["egyEng" , "egyArb"  , "nums" , "alpha"] }
+	# NOTE : car_plate length may not be always 6  , 6 is tha mx_len so find solution to that
+	ids_specs = [default_id_specs , lisence_specs , car_plate_specs ]  #0 is the default id
+ 
+	
+ 
+   #needed later
+	final_value , img  = [ None for i in range (2)] #needed later
+	
+   #replace them
+	fps = 30
+	timer = mx_time # 1000 * 10ms = 10s
+ 
+	all_success : bool = False
+ 
+	is_gpu_accel_enabled  , gpu_api = check_gpu_accl () 
+	vid_specs : list = None
+	if is_gpu_accel_enabled == True :
+		vid , *vid_specs = video_settings_setup(gpu_accel= gpu_api)
+		read_simple_card_cuda(vid= vid)	  #if cuda gpu
+	else :
+		vid , *vid_specs = video_settings_setup()
+		read_simple_card_opencl(vid= vid) #if opencl or no available gpu
+ 
+
 	vid.release()
 
 	#TESTING BLOCK
@@ -253,37 +312,7 @@ def read_simple_card_opencl( id_dimension : tuple = (405 , 271) ) -> str : #NOTE
 		return id 
 	else : 
 		return False #FAIL
-		
-def ocr_main (id_dimension : tuple = (405 , 271) , id_type_indx : int = 0 ) -> str : 
- #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-	"""
-	this function does following (until now):
-   0. enables gpu acceleration if available (cuda or opencl)
-	1. starts video capture
-	2. provide rectangle at video center to help user scan id + timer 
-	4.proccess taken frame for better ocr ( threshold , smooth , dialate/erode , deskew(soon)) 
-	5. ocr 
-	6. parse the text to take only id for now ( 14 numeric digits )
-	3. save either by clicking key 'q' or when timer stops
-	7. return the ocr(ed) ID carn number
- 
-	Default id shape is : ( 405 x 271 ) (x,y) (later this will ocr car plates and license)
-	actual size of our test id card image is 400x266
-	
-	returns id string if succeeded 
-	returns False bool if Failed
-	"""
- #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-	#simple ids templates
-	# this is good for future if wanted to extend code to scan car plates ofقdiffز id types
-	default_id_specs = {'id_type' : (0 , "default")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "gender" , "birthDate" , "id_num" ] }
-	lisence_specs    = {'id_type' : (1 , "lisence")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "vehicle_type" ,  "id_num" ] }
-	car_plate_specs  = {'id_type' : (2 , "carPlate") , 'id_char' : "Alphanumeric" , 'id_length' : 6  , 'id_objects_ordered' : ["egyEng" , "egyArb"  , "nums" , "alpha"] }
-	# NOTE : car_plate length may not be always 6  , 6 is tha mx_len so find solution to that
-	ids_specs = [default_id_specs , lisence_specs , car_plate_specs ]  #0 is the default id
- 
-   
-	
+
 
 
 if __name__ == "__main__": 
