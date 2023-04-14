@@ -141,7 +141,12 @@ def build_db():  # only once to create database
 ###########################################################################
 
 def calc_cost(person_id : str , conn ):
-	''' get diffrence between parking time and free cell time then mul with cost per hour'''
+	"""  
+ 	get diffrence between parking time and free cell time then mul with cost per hour
+  
+	return :
+	(total_cost_le ,  tot_time_hour)
+ 	"""
 
 	cursor = conn.cursor()
 	tot_cost_le , tot_time_hour  , cost_per_hour  = 0 , 0 , 3 # change_cost_per hour as you wish
@@ -190,7 +195,7 @@ def calc_cost(person_id : str , conn ):
 ###########################################################################
 
 def park_car_db(conn, cmd, id):
-	'''park car command to UPDATE database '''
+	'''park car command to UPDATE database   return : park_cell_no , cost_le , tot_park_time_hour'''
 
 	cursor = conn.cursor()
 # check if parking is full return parking full err (from available table)
@@ -240,7 +245,7 @@ INSERT into event_log (person_id , event_type ) VALUES
 		conn.close()
 		# return NOThing important END
 		print("debug message : SUCCESS Database has been CHANGED! \n")
-		return 1  # success
+		return nearest_empty_cell_id  # success
 ###########################################################################
 
 
@@ -303,6 +308,14 @@ def db_cmd(cmd: int, id: str):
 
 ###########################################################################
 def db_check_ai_id (id_to_chk : str)  -> bool : #NOTE : still not tested 
+	"""
+	Returns :
+	is_found
+
+	in caller function / GUIyou must check if this found id is valid id in db is actually the right one
+	by asking end user in GUI
+   					
+	"""	
 
 	is_found = True
 
@@ -315,7 +328,7 @@ def db_check_ai_id (id_to_chk : str)  -> bool : #NOTE : still not tested
 		temp = cursor.fetchall()
 
 		if len(temp) == 0 :
-			is_found == False
+			is_found == False , 
 	
 	return is_found
 	
