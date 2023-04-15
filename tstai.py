@@ -266,12 +266,24 @@ def search_id( id_char_type : str , scanned_image : str , valid_ids_freq : dict 
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
  
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-def read_simple_card_cuda ( vid : cv2.cuda.VideoCapture , vid_specs : list , id_card_specs : dict , is_valid : bool = False) -> str : ...
+def read_simple_card_cuda ( vid : cv2.VideoCapture , vid_specs : list , id_card_specs : dict , is_valid : bool = False) -> str :
+	#gpu index to use in acceleration
+	cv2.cuda.setDevice(0) 
+
+
+	vid = cv2.VideoCapture(0, cv2.CAP_CUDA)
+
+	# Check if the camera is successfully opened
+	return False if not vid.isOpened() else True
+    
+
+#use cuda functions and cuda matrices
 
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
  
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 def read_simple_card_opencl( vid : cv2.VideoCapture , vid_specs : list , id_card_specs : dict , is_valid : bool = False ) -> str : #NOTE: also use it when no GPU
+   #TODO : use UMat 
 	"""
 	* Args:
  
