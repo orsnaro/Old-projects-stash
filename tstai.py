@@ -8,6 +8,7 @@
 """
 
 import cv2
+import os
 import numpy as np
 import pytesseract as tsr
 import garage_db as db
@@ -99,11 +100,11 @@ def check_gpu_accl () -> tuple :
 	"""
 
 	#check if cuda / opencl is enabled  
-	cuda_available : bool = cv2.cuda.getCudaEnableDeviceCount() > 0
+	cuda_available : bool = cv2.cuda.getCudaEnabledDeviceCount() > 0
 	cuda_enabled   : bool = 'CUDA'	in cv2.getBuildInformation()
 	
-	opencl_enabled : bool = cv2.ocl.haveOpenCl()
-	cv2.ocl.setUseOpenCl(True) if opencl_enabled else False
+	opencl_enabled : bool = cv2.ocl.haveOpenCL()
+	cv2.ocl.setUseOpenCL(True) if opencl_enabled else False
 
 	#alternative check for opencl 
 	# opencl_enabled : bool = 'OpenCL' in cv2.getBuildInformation()
@@ -131,35 +132,41 @@ def video_settings_setup (cam_indx : int  = 0, fps : int = 30 , vid_time_sec : i
 	"""
 	* This function does set up the video objects
  
+	* NOTE 1:
+ 
 		* gpu_accel == 0  no GPU acceleration found 
- 
 		* gpu_accel == 1  Cuda GPU acceleration found
- 
 		* gpu_accel == 2  OpenCl GPU acceleration found
  
+	* NOTE 2:
+ 
+		* active_gpu_api == 0 (no active accel api)
+		* active_gpu_api == 1 (Cuda)
+		* active_gpu_api == 2 (OpenCL)
+  
 	* Returns :
+ 
 		vid , fps , frametime , vid_time_sec , active_gpu_api
   
-	* NOTE 1:
-		* active_gpu_api == 0 (no active accel api)
-		* active_gpu_api == 1 (OpenCL)
-		* active_gpu_api == 2 (Cuda)
 
 	"""
 	#set the path to the tesseract dir ( not needed if you added it to win. env. variables)
 	tsr.pytesseract.tesseract_cmd =  r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 	
 	is_gpu_accel_enabled  , gpu_api = check_gpu_accl () 
+ 
+	print ( f"gpu api is : {gpu_api}") #TESTING
+ 
 	if is_gpu_accel_enabled :
-		if gpu_api == 2 : #use Cuda video object
+		if gpu_api == 1 : #use Cuda video object
 			#you can change video I/O backends used by adding  the argument :
 			#cv2.CAP_DSHOW  (Dshow is the default in my omar-pc)
-			vid = cv2.cuda.VideoCapture(cam_indx , cv2.CAP_DSHOW)
-		else : #opencl
+			vid = cv2.VideoCapture(cam_indx , cv2.CAP_DSHOW)
+		else : #OpencL
 			vid = cv2.VideoCapture(cam_indx , cv2.CAP_DSHOW)
 	else : #DEFAULT 
 		vid = cv2.VideoCapture(cam_indx , cv2.CAP_DSHOW)
-
+  
 	#set custom res
 	vid.set(cv2.CAP_PROP_FRAME_WIDTH , res[0]) 
 	vid.set(cv2.CAP_PROP_FRAME_HEIGHT, res[1])
@@ -169,11 +176,11 @@ def video_settings_setup (cam_indx : int  = 0, fps : int = 30 , vid_time_sec : i
 	#frametime is needed to put as cv2.waitkey() argument 
 	frametime = 1000 // fps 
 
-	return vid , fps , frametime , vid_time_sec , gpu_api
+	return vid , fps , frametime , vid_time_sec , gpu_api 
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
  
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-def proccess_vid_frame( _frame : np.ndarray ) -> np.ndarray :
+def proccess_vid_frame( _frame : np.ndarray , _id_dimension : tuple , _is_valid : bool ) -> np.ndarray :
 		"""
 		1. threshold frame
 		2. blur frame
@@ -183,15 +190,19 @@ def proccess_vid_frame( _frame : np.ndarray ) -> np.ndarray :
 		Returns:
 			final_img
 	"""
+  
 		#original video frame with out the rectangle and timer is what we will process
-		img = frame 
+		img = _frame 
+  
 		#make the rectangle object to help position ID card when scanning (initially RED)
-		frame , pos = make_rectangle_obj( frame , id_dimension , ('red' if is_valid == 0 else 'green'))
+		frame , pos = make_rectangle_obj( _frame , _id_dimension , ('red' if _is_valid == 0 else 'green'))
 		#show camera at  fps ( end user visual aid )
 		cv2.imshow("Camera", frame)
 
+		x1 , y1 = pos[0][0] , pos[0][1]
+		x2 , y2 = pos[1][0] , pos[1][1]
 		#crop image to get the id card only (with + 5px than actuall id size)
-		img = img[ pos[2]:pos[3] , pos[0]:pos[1] ]
+		img = img[ y1 : y2 , x1 : x2  ]
 
 		#change image to gray scal cuz THRESH OTSU Needs that
 		img = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)
@@ -202,33 +213,43 @@ def proccess_vid_frame( _frame : np.ndarray ) -> np.ndarray :
 
 		# median blur to remove noise
 		img_threshed_blured = cv2.medianBlur(img_threshed, 3) 
+		
+		#TODO : sharpen image after removing noise using laplacian 
+  
+		#TODO : deskew 
 
+		#TODO : read about then try diff morphological operation or combine them (dialation / erosion / opening)
 		# dilation to make the text thicker
-		kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
-		img_final = cv2.erode(img_threshed_blured, kernel, iterations=1) 
+		kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3)) #bigger kernel usually fits smaller fonts
+		img_final = cv2.erode(img_threshed_blured, kernel, iterations=1)
 		# use cv2.dilate() instead if you want to expand the white pixels 
-  		# (look up dilation and erosion)
+		# (look up dilation and erosion)
 
 		# TESTING BLOCK #
 		cv2.imshow("TESTING : show image before edit" , img)
 		cv2.imshow("TESTING : show image after edit" , img_final)
 		# cv2.destroyAllWindows()
-  
+
 		# END OF TESTING BLOCK #
-  
+
 		#TODO :  deskew algorithm ( to keep ocr accurate with rotated id photoes)
-  
+
 		return img_final 
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
  
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 def search_id( id_char_type : str , scanned_image : str , valid_ids_freq : dict ) -> bool :
-   
+	"""
+	Returns:
+		 is_valid , (some times extracted_id_val)
+	"""
+
 	id_values_type : str =  id_char_type #always 'numeric' for type 0 id (default)
 	scanned_image = scanned_image.split()
 
 	print ( f" {scanned_image}  {type(scanned_image)} ") #TESTING
-  
+
+	is_valid , extracted_id_val = False , None
 	for id_obj in scanned_image	:
 
 		print ( f'obj before strip and replace : {id_obj} ' )#TESTING
@@ -239,7 +260,7 @@ def search_id( id_char_type : str , scanned_image : str , valid_ids_freq : dict 
 
 		print (f'scanned_image size : {len(scanned_image)} ')#TESTING
 		print (f' id_obj: {id_obj}  is numeric? {ok_type} ') #TESTING
-	
+
 		#NOTE: add condition  for scanned_image sz to make it more restrict ( ex: must equal 4*2 in default id type)
 		if id_char_type == 'numeric' and ok_type ==  True and sz == 14 : 
 			extracted_id_val = id_obj
@@ -251,18 +272,21 @@ def search_id( id_char_type : str , scanned_image : str , valid_ids_freq : dict 
 			db_ok : bool =  db.db_check_ai_id(id_obj)
 			if db_ok == True :
 				is_valid = True
-				valid_ids_freq[extracted_id_val] += 1
+				if extracted_id_val in valid_ids_freq:
+					valid_ids_freq[extracted_id_val] += 1
+				else:
+					valid_ids_freq[extracted_id_val] = 1
 			else :
 				continue
 	
-		else : continue
-   
+		else : pass
+
  		# '& 0xFF' takes only least significant byte -> (pressed key ascii code)
-		if cv2.waitKey(0) & 0xff == ord('q'): #TESTING
-			return False , extracted_id_val #this must be used in debug only
+		# if cv2.waitKey(10) & 0xff == ord('q'): #TESTING
+		# 	return False , extracted_id_val #this must be used in debug only
 
 
-	return is_valid 	
+	return is_valid 	, extracted_id_val
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
  
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
@@ -275,50 +299,57 @@ def read_simple_card_cuda ( vid : cv2.VideoCapture , vid_specs : list , id_card_
 
 	# Check if the camera is successfully opened
 	return False if not vid.isOpened() else True
-    
+	
 
 #use cuda functions and cuda matrices
 
- #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
- 
- #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+
+#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 def read_simple_card_opencl( vid : cv2.VideoCapture , vid_specs : list , id_card_specs : dict , is_valid : bool = False ) -> str : #NOTE: also use it when no GPU
-   #TODO : use UMat 
+	#TODO : use UMat 
 	"""
 	* Args:
- 
+
 		vid
-  
+
 		vid_specs : fps , frametime(1000 ms / fps) , vid_time_sec , active_gpu_api
-  
+
 		id_dimension
-  
+
 		is_valid
 
 	* Returns:
- 
+
 		final_status 
-  
-  		scanned_id_string
-    
-    status is 'False' when error reading frame or scan id
+
+		scanned_id_string
+
+	status is 'False' when error reading frame or scan id
 	"""
 	valid_cnt = 0
 	valid_ids_freq = {}
 	vid_time_cnt = vid_specs[2]
 	id_dimension = id_card_specs['dimension']
 	while vid_time_cnt > 0: #start capture camera at fps for 10seconds
-   
+
+		#show riva tuner stats on python windows
+		os.environ["RTSS_PROCESSID"] = str(os.getpid())
+
 		no_error , frame =  vid.read()
- 
+
 		if not no_error :
-			return False #Fail error reading frame
+			return False , None #Fail error reading frame
 	
-		img_final = proccess_vid_frame(frame)
+
+		
+  
+		img_final = proccess_vid_frame(frame , _id_dimension= id_dimension , _is_valid= is_valid)
   
 		imgstr = tsr.image_to_string(img_final, lang='eng')
   
 		is_valid, *_ = search_id ( id_card_specs['id_char'] , imgstr , valid_ids_freq) #edits valid_ids_freq inside
+  
 		if is_valid :
 			#render a green rectangle + must stay green for one second
 			valid_cnt += 1
@@ -327,7 +358,7 @@ def read_simple_card_opencl( vid : cv2.VideoCapture , vid_specs : list , id_card
 			valid_cnt = 0
 
 		print ( 'valid counter ' , valid_cnt)#TESTING 
-  
+
 		fps = vid_specs[0]
 		vid_time_cnt -= 1
 		if valid_cnt >= fps :  #if still valid for whole one sec accepted 
@@ -339,58 +370,58 @@ def read_simple_card_opencl( vid : cv2.VideoCapture , vid_specs : list , id_card
 		frametime = vid_specs[1]
 		cv2.waitKey( frametime )  
 
-	return False #fail
+	return False , None #fail
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-		
 
-  
-		
+
+
+
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 def ocr_main (id_dimension : tuple = (405 , 271) , id_type_indx : int = 0 ) -> str : 
 	"""
 	* this function does following (until now):
- 
+
 		0. enables gpu acceleration if available (cuda or opencl)
-   
+
 		1. starts video capture
- 
+
 		2. provide rectangle at video center to help user scan id + timer 
 	
 		4. proccess taken frame for better ocr ( threshold , smooth , dialate/erode , deskew(soon)) 
- 
+
 		5. ocr 
- 
+
 		6. parse the text to take only id for now ( 14numeric digits )
- 
-		3. save either by clicking key 'q' or when timer stops
+
+		3. save valid id after 1sec or stop cam after 10sec of invalid ids scan
 	
- 
-		7. return the ocr(ed) ID carn number
- 
+
+		7. return the ocr(ed) ID card number
+
 	* Default id shape is : ( 405 x 271 ) (x,y) (later this will ocr car plates and license)
 	actual size of our test id card image is 400x266
 		
 	* id_type_inx -> default id == 0 , lisence id  == 1  , car plate id == 2
-  
+
 	* returns id string    -> if succeeded 
- 
+
 		* returns False bool   -> if Failed
 	"""
 	#simple ids templates
 	# this is good for future if wanted to extend code to scan car plates ofقdiffز id types
-	default_id_specs = {'id_type' : (0 , "default")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "gender" , "birthDate" , "id_num" ] , 'dimension' : (400 , 266)  }
-	lisence_specs    = {'id_type' : (1 , "lisence")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "vehicle_type" ,  "id_num" ] , 'dimension' : (400 , 266)}
-	car_plate_specs  = {'id_type' : (2 , "carPlate") , 'id_char' : "Alphanumeric" , 'id_length' : 7  , 'id_objects_ordered' : ["egyEng" , "egyArb"  , "nums" , "alpha"] , 'dimension' : (300 , 266)}
+	default_id_specs = {'id_type' : (0 , "default")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "gender" , "birthDate" , "id_num" ] , 'dimension' : id_dimension  }
+	lisence_specs    = {'id_type' : (1 , "lisence")  , 'id_char' : "numeric"      , 'id_length' : 14 , 'id_objects_ordered' : ["name" , "vehicle_type" ,  "id_num" ] , 'dimension' : id_dimension}
+	car_plate_specs  = {'id_type' : (2 , "carPlate") , 'id_char' : "Alphanumeric" , 'id_length' : 7  , 'id_objects_ordered' : ["egyEng" , "egyArb"  , "nums" , "alpha"] , 'dimension' : id_dimension}
 	# NOTE : car_plate length may not be always 7 , 7 is tha mx_len so find solution to that
 	ids_specs = [default_id_specs , lisence_specs , car_plate_specs ]  #0 is the default id
- 
- 
-   #needed later
-	final_value = None , None
+
+
+	#needed later
+	final_value = None 
 	vid, *vid_specs = video_settings_setup()
 	active_gpu_api = vid_specs[3]
- 
-	if active_gpu_api == 2 : #Cuda
+
+	if active_gpu_api == 1 : #Cuda
 		if id_type_indx == 0 : #default id card
 			final_status , scanned_id = read_simple_card_cuda(vid , vid_specs , ids_specs[0])
 		elif id_type_indx == 1 : #TODO: lisence card
@@ -415,7 +446,7 @@ def ocr_main (id_dimension : tuple = (405 , 271) , id_type_indx : int = 0 ) -> s
 		return id 
 	else : 
 		return False #FAIL
- #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
+#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 
 
 
