@@ -8,7 +8,7 @@
 """
 
 import cv2
-import os
+# import os 
 import numpy as np
 import pytesseract as tsr
 import garage_db as db
@@ -128,7 +128,7 @@ def enable_multithreading () : ... #in case gpu acceleration is not enough to ma
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
 
  #_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#_#
-def video_settings_setup (cam_indx : int  = 0, fps : int = 30 , vid_time_sec : int = 10, res : tuple = (1366 , 768)) -> tuple :
+def video_settings_setup (cam_indx : int  = 0, fps : int = 30 , vid_time_sec : int = 20, res : tuple = (1366 , 768)) -> tuple :
 	"""
 	* This function does set up the video objects
  
@@ -212,7 +212,7 @@ def proccess_vid_frame( _frame : np.ndarray , _id_dimension : tuple , _is_valid 
 		#NOTE : search why they use binary with otsu threshold hold not otsu only 
 
 		# median blur to remove noise
-		img_threshed_blured = cv2.medianBlur(img_threshed, 3) 
+		# img_threshed_blured = cv2.medianBlur(img_threshed, 3) 
 		
 		#TODO : sharpen image after removing noise using laplacian 
   
@@ -220,8 +220,9 @@ def proccess_vid_frame( _frame : np.ndarray , _id_dimension : tuple , _is_valid 
 
 		#TODO : read about then try diff morphological operation or combine them (dialation / erosion / opening)
 		# dilation to make the text thicker
-		kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3)) #bigger kernel usually fits smaller fonts
-		img_final = cv2.erode(img_threshed_blured, kernel, iterations=1)
+  	# kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3)) #bigger kernel usually fits smaller fonts
+		# img_final = cv2.erode(img_threshed, kernel, iterations=1)
+		img_final = img_threshed
 		# use cv2.dilate() instead if you want to expand the white pixels 
 		# (look up dilation and erosion)
 
@@ -332,9 +333,6 @@ def read_simple_card_opencl( vid : cv2.VideoCapture , vid_specs : list , id_card
 	vid_time_cnt = vid_specs[2]
 	id_dimension = id_card_specs['dimension']
 	while vid_time_cnt > 0: #start capture camera at fps for 10seconds
-
-		#show riva tuner stats on python windows
-		os.environ["RTSS_PROCESSID"] = str(os.getpid())
 
 		no_error , frame =  vid.read()
 
