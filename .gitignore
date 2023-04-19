@@ -1,4 +1,6 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-id_snapshots/*
+smart_parking_system\*
+*.jpg
+*.png
