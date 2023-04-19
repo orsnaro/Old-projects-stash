@@ -11,5 +11,10 @@ def tempe() :
 
 	
 	
+id = '123'
 
-tempe()
+id2 = '123'
+
+full = id + id 
+
+print ( full )

@@ -1,4 +1,49 @@
 
+find orientation of image using referecne image and then rotate it
+
+
+
+To find the orientation of an image using a reference image and then rotate it to match the orientation of the reference image, you can use feature detection and matching techniques. Here's an example of how to do this using OpenCV:
+
+import cv2
+import numpy as np
+
+# Load the reference image and the image to be rotated
+ref_img = cv2.imread('reference_image.png', 0)
+img = cv2.imread('image_to_be_rotated.png', 0)
+
+# Detect keypoints and compute descriptors for the reference image and the image to be rotated
+detector = cv2.ORB_create()
+matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+ref_kp, ref_desc = detector.detectAndCompute(ref_img, None)
+img_kp, img_desc = detector.detectAndCompute(img, None)
+
+# Match the keypoints and select the best matches
+matches = matcher.match(ref_desc, img_desc)
+matches = sorted(matches, key=lambda x: x.distance)
+good_matches = matches[:10]
+
+# Calculate the transformation matrix using the best matches
+ref_pts = np.float32([ref_kp[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+img_pts = np.float32([img_kp[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+M, mask = cv2.findHomography(ref_pts, img_pts, cv2.RANSAC, 5.0)
+
+# Calculate the rotation angle and rotate the image
+angle = np.arctan2(M[1, 0], M[0, 0]) * 180 / np.pi
+(h, w) = img.shape[:2]
+center = (w // 2, h // 2)
+M = cv2.getRotationMatrix2D(center, angle, 1.0)
+img_rotated = cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+
+# Show the rotated image
+cv2.imshow('Rotated Image', img_rotated)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+In this example, the cv2.ORB_create() function is used to create an ORB detector, which is used to detect keypoints and compute descriptors for both the reference image and the image to be rotated. The cv2.BFMatcher() function is used to match the keypoints between the two images, and the cv2.findHomography() function is used to calculate the transformation matrix M using the best matches.
+
+The rotation angle is then calculated from the transformation matrix M, and the image is rotated using the cv2.getRotationMatrix2D() and cv2.warpAffine() functions. Finally, the rotated image is displayed using cv2.imshow().
+
+
 for gpu accl :
 
 For CUDA:
