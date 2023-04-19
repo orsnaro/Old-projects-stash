@@ -1,6 +1,7 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-smart_parking_system\*
+smart_parking_system/*
+__pycache__/*
 *.jpg
 *.png
