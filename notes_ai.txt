@@ -1,4 +1,28 @@
 
+Instead, you may want to consider using a specialized OCR library or framework that is designed specifically for real-time applications. Here are a few options to consider:
+
+OCRopus: OCRopus is an OCR system developed by Google that is designed for high-performance OCR on large-scale document collections. It includes a number of features that are optimized for real-time performance, such as multi-threading and GPU acceleration.
+
+EasyOCR: EasyOCR is a Python library that provides OCR functionality using a combination of deep learning and traditional OCR techniques. It is designed to be easy to use and provides good accuracy even on difficult images.
+
+Textract: Textract is a Python library that provides OCR functionality as well as text extraction from a variety of document formats, including PDF, DOCX, and HTML. It uses a combination of OCR engines and machine learning techniques to provide accurate results.
+
+OpenCV: OpenCV is a computer vision library that includes OCR functionality as well as many other image processing and analysis tools. It can be used to perform real-time OCR on live video feeds, and includes features such as text detection, character recognition, and image enhancement.
+
+Each of these libraries has its own strengths and weaknesses, and the choice of which one to use depends on the specific requirements of your application. You may need to experiment with different libraries and configurations to find the one that works best for your needs.
+
+
+frame_to_show = cv2.UMat(np.array(frame.get()))
+
+will make true copy that any changes to it doesnt effect the frame
+
+The line of code frame_to_show = cv2.UMat(np.array(frame.get())) creates a new UMat object, which is a wrapper around a NumPy array. The NumPy array is created by calling the get() method on the frame object.
+
+This line of code creates a copy of the data in the frame object, but it does not create a deep copy. This means that the data in frame_to_show shares the same memory as the original frame object. Any changes made to the data in frame_to_show will also affect the data in frame.
+
+However, since frame_to_show is a NumPy array wrapped in a UMat object, any changes made to the NumPy array will not be reflected in the original frame object. This is because the UMat object provides a copy-on-write view of the NumPy array.
+
+Therefore, if you modify the frame_to_show object directly, the changes will not be reflected in the original frame object. But if you modify the data in the frame object, those changes will be reflected in both the original frame object and the frame_to_show object, since they share the same memory.
 find orientation of image using referecne image and then rotate it
 
 
