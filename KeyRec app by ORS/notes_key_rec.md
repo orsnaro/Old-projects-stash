@@ -158,72 +158,40 @@ I hope this helps! Let me know if you have any further questions.
 
 # so better i don't minimize?  what about  if another window is in focus not the wanted app but my wanted app not minimized?
 
-If the target application's main window is not minimized but another window is in focus, you can use the SetForegroundWindow function from the win32gui module to bring the target window to the foreground and give it focus before sending the key presses. Here's an example of how to modify the replay function to do this:
+# i need the inpur key board from a program to go to mimized winodw with out focus on it or get it to forground (work almost totally in background except you see it flashes in taskbar)
+
+In order to send keyboard input to a minimized window without making it active, you can use the PostMessage() function from the win32gui module to simulate a keystroke message, instead of the keybd_event() function from win32api.
+
+When you use keybd_event() to send a keystroke message, the message is sent directly to the window that has the input focus, or to the window that is currently active. If the window is minimized or not active, the message will not be processed.
+
+On the other hand, when you use PostMessage() to simulate a keystroke message, the message is placed in the message queue of the specified window, regardless of whether the window is active or not. The message will be processed when the window becomes active again, or when the message queue is processed by the system.
+
+Here's an example code snippet that demonstrates how to use PostMessage() to simulate a keystroke message and send it to a minimized window:
 
 ```python
+					if event.event_type == keyboard.KEY_DOWN:
+						msg = win32con.WM_KEYDOWN
+						wparam = vk_code
+						lparam = (scan_code << 16) | 1
+						win32gui.PostMessage(hwnd, msg, wparam, lparam)
 
-import win32api
-import win32gui
-import keyboard
-import random
-import time
-import sys
-
-# Record the key presses
-def record( start_key= 'f5'):
-	events : list = []
-	print("~~~~~~~~~ WELCOME TO KeyRec v1.0B by ORS ~~~~~~~~~")
-	print (f"\n-> press '{start_key}' to start record. press '{start_key}' again to stop recording")
-	while True :
-		if keyboard.is_pressed(start_key) :
-			print ("\nSTARTED RECORDING...")
-			time.sleep(1)
-			events = keyboard.record(until= start_key)
-			print ("END RECORDING...")
-			break
-	events_done = events[:-1]
-	print (f"\n\n\nrecorded keys : \n {events_done}")
-	return events_done
-
-
-# Replay the key presses to a specific application identified by its PID
-def replay(events, pid, replay_key= 'f6'):
-	# Get a handle to the application's main window
-	hwnd = win32gui.FindWindowEx(0, 0, None, None)
-	while hwnd:
-	    if win32api.GetWindowThreadProcessId(hwnd)[1] == pid:
-	        break
-	    hwnd = win32gui.FindWindowEx(0, hwnd, None, None)
-
-	# Bring the application's main window to the foreground and give it focus
-	win32gui.SetForegroundWindow(hwnd)
-
-	print (f"\n\n\n-> press '{replay_key}' to start replay. press '{replay_key}' again to stop replaying")
-	while True:
-		if keyboard.is_pressed(replay_key):
-			print ("\nSTART RE-PLAYING...")
-			time.sleep(0.2)
-			while True :
-				for event in events:
-					if keyboard.is_pressed(replay_key):
-						print ("END RE-PLAYING...")
-						print("\n\n\nexiting KeyRec by ORS...  \nwas made for asda-story...")
-						sys.exit(0) #success
-					# Simulate the key press in the target window
-					win32gui.SendMessage(hwnd, win32con.WM_KEYDOWN, event.scan_code, 0)
-					win32gui.SendMessage(hwnd, win32con.WM_KEYUP, event.scan_code, 0)
-					time.sleep(round(random.uniform(0.1, 0.4), 2))
-
-
-# Main function
-if __name__ == '__main__':
-	pid = 1234  # Replace with the process ID of the target application
-	events = record(start_key= 'f10')
-	replay(events, pid, replay_key= 'f12')
+					elif event.event_type == keyboard.KEY_UP:
+						msg = win32con.WM_KEYUP
+						wparam = vk_code
+						lparam = (scan_code << 16) | (1 << 31)
+						win32gui.PostMessage(hwnd, msg, wparam, lparam)
 ```
 
-In this example, we modify the replay function to use the SetForegroundWindow function to bring the target window to the foreground and give it focus before sending the key presses. We do this by passing the handle of the target window to SetForegroundWindow.
 
-Note that bringing a window to the foreground and giving it focus can be disruptive to the user's workflow, so use this approach with caution and consider providing a visual cue to the user before doing so.
+there is another function in the win32gui module called SendMessage() that is similar to PostMessage(). Both functions are used to send messages to a window, but they differ in their behavior and usage.
 
-I hope this helps! Let me know if you have any further questions.
+The SendMessage() function sends a message directly to the target window's message queue and waits for the window to process the message before returning. This means that SendMessage() is a synchronous function that blocks the calling thread until the target window has processed the message. If the target window is not responding or is busy, the calling thread may be blocked for a significant amount of time.
+
+On the other hand, the PostMessage() function sends a message to the target window's message queue and immediately returns, allowing the calling thread to continue executing without waiting for the target window to process the message. This means that PostMessage() is an asynchronous function that does not block the calling thread. The target window will process the message at some later time, typically when it enters its message loop.
+
+In general, SendMessage() is used for immediate communication with a window, while PostMessage() is used for delayed or non-critical communication. Which function to use depends on the specific use case and requirements of your application.
+
+
+
+
+1

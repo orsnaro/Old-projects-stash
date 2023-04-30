@@ -1,3 +1,13 @@
+"""
+								  Coder : Omar
+								  Version : v1.0B
+								  version Date :  28 / 4 / 2023
+								  Code Type : Key Recorder - general use 
+								  Title : KeyRec 
+								  Interpreter : cPython  v3.11.0 [Compiler : MSC v.1933 AMD64]
+								  EXE using : pyinstaller module
+"""
+
 import keyboard
 import random
 import time
