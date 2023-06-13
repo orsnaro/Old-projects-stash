@@ -1,4 +1,4 @@
-# ThIS repo. is my basement . it will contain  **most** of my  very very early non-official projects  to remind my self of my first humble steps  . BTW  my study repo is private right now  <3
+# ThIS repo. is my basement . it will contain  **most** of my  very very early  projects  to remind my self of my first humble steps  . BTW  my study repo is private right now  <3
 
 #### _main merged with_ :  Old-projects-stash/project1_calc_no_UI_V0.1
 
