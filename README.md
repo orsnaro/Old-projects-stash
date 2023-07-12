@@ -2,8 +2,15 @@
 <sub> - this branch is old branch moved form my old private repo </sub>
 ![model](https://github.com/orsnaro/STu-dy-old-projects/blob/SQL_blood_bank_noUI/photo_2022-04-24_23-18-27.jpg)
 
-
->needs
+>### Team:
+* Omar Rashad ( DDL coder & Leader )
+* Omar Elshafey
+* Abdullah Salah
+* Omar Gallo
+* Ahmed Abuzeid
+* Acem Abuqamar
+  
+>### Todo:
 
 1. some automaiton between tables
 
