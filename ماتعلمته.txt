@@ -1,4 +1,6 @@
 *ملاحظات*
+this is old notes from 2020/2021
+
 
 For non-pointer success/fail:
 
