@@ -1,0 +1,104 @@
+*ملاحظات*
+
+For non-pointer success/fail:
+
+0 => success
+-1 => fail
+For pointer functions:
+
+NULL => fail
+everything else => success
+
+
+buffer :متغير او مصفوفة لتخزين وقراءة المدخلات والمخرج
+مفيش متغير ف السي للنصوص زي الاحرف والارقام 
+
+عشان كدة ممكن نعمل مصفوفة نص
+char any_name[]="if u want to sto any string";
+
+تلقائيا ف مصفوفة النص بينضاف في اخر عنصر NUlll 
+ممكن اضيفه مع العناصر او بيكون موجود بس مخفي عشان يدل على نهاية المصفوفة
+
+ف المصفوفات العادي العناصر الفاضية برضو بتكون 0 او 
+'\0'
+
+NULL. null, nul, nil, NUL etc في فروق اعرفها بعدين بين
+
+stdout دا عشان اخلي الحاجة تظهر ع جهاز الخرج الديفولت
+
+عند قراءة ملف خارجي بدالة fopen
+MODE OF OPERATIONS PERFORMED ON A FILE IN C LANGUAGE:
+
+r – Opens a file in read mode and sets pointer to the first character in the file. It returns null if file does not exist.
+w – Opens a file in write mode. It returns null if file could not be opened. If file exists, data are overwritten.
+a – Opens a file in append mode.  It returns null if file couldn’t be opened.
+r+ – Opens a file for read and write mode and sets pointer to the first character in the file.
+w+ – opens a file for read and write mode and sets pointer to the first character in the file.
+a+ – Opens a file for read and write mode and sets pointer to the first character in the file. But, it can’t modify existing contents.
+----------------------------------------------------------------
+
+*الدوال المهمة الي تعملتها جديد:*
+
+ternary if-then-else operator (?:) ==> can use in for loops conditions:
+condition ? do if true : do if false
+
+sleep() function is provided by unistd.h library
+
+this function will sleep given thread specified time for the current executable. Of course, the CPU and other processes will run without a problem.
+
+fflush(stdout) clears output screen as far as i know !
+fflush(stdin) clears input buffer
+override beffer important for buggy scanf at EOF
+fgets(whereto store,max_char_no,stdin)
+/*  اخر باراميتر خاص بجهاز الدخل مثلا كيبوردواحنا خليناه ع الستاندرد
+لو استخدمنا بداله stdout
+نقدر نخليه يطبع كلام وكدة نستغنى عن اي دالة طباعة زي برنتاف او بوتس
+
+get(buffer)
+نقدر نخزن  بيها سترينج مباشرة في مصفوفة مثلا بس خطيرة لان  
+مفهاش ليميت
+هي اسرع بس لازم اعرف عدد الحروف المدخلة ومتعديش الليمت
+
+puts(any string);
+لكتابة نص بسهولة اكثر من الطريقة الاعتيادية ويقال اكثر امانا 
+fputs(any string,stdout)
+نفس الدالة ولكن نحدد مكان الخرج
+gotoدالة مش محبذ استخدامها بتطلعني من البلوك لبلوك تاني عايزه
+
+
+دالة fopen , fclose
+
+putchar getchar
+دوال عشان اكتب حرف واحد او اطلع حرف واحد
+
+-----------------------------------------------------------------
+*لسا محتاج اجربه او افهمه:*
+
+Converting a String to a Number 
+:الرابط
+https://www.guru99.com/c-strings.html#:~:text='C'%20language%20does%20not%20directly,char%20string_variable_name%20%5Barray_size%5D%3B
+
+How to empty a char array?
+اما باستخدام تصفير او عنصر ويصفر الباقي 
+your_array[0] = '\0';
+
+او طريقة قديمة 
+in general:
+  memset(members, 0, sizeof members);
+
+if the array is in scope, or:
+  memset(members, 0, nMembers * (sizeof members[0]) );
+ nMembers is the number of elements in the array.
+
+محتاج اجرب الاثنين 
+
+
+دالة strcat
+عشان افتح بلوكين ع بعض ويفيد في ملا المصفوفات مثلا بسرعة
+
+دالة getchar
+
+دالة check
+
+EOF??
+
